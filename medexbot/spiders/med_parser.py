@@ -17,7 +17,10 @@ class MedSpider(scrapy.Spider):
             yield from response.follow_all(pagination_links, self.parse)
 
     def parse_med(self, response):
+        def extract_with_css(query):
+            return response.css(query).get(default='').strip()
         med_details = dict()
         med_details['brand_name'] = response.xpath(
             '/html/body/main/section/div[2]/div/div[1]/div/div[1]/h1/span[2]/text() ').get()
+        dosage_form = extract_with_css('small.h1-subtitle ::text')
         yield med_details
