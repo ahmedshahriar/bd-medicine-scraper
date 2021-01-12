@@ -25,5 +25,6 @@ class MedSpider(scrapy.Spider):
         med_details['dosage_form'] = extract_with_css('small.h1-subtitle ::text')
         # generic_name = extract_with_css('div[title="Generic Name"] a ::text')
         generic_link = extract_with_css('div[title="Generic Name"] a ::attr(href)')
+        med_details['generic_id'] = re.findall("generics/(\S*)/", generic_link)[0]
 
         yield med_details
