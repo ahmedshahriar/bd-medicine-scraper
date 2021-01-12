@@ -26,7 +26,8 @@ class MedSpider(scrapy.Spider):
         # generic_name = extract_with_css('div[title="Generic Name"] a ::text')
         generic_link = extract_with_css('div[title="Generic Name"] a ::attr(href)')
         med_details['generic_id'] = re.findall("generics/(\S*)/", generic_link)[0]
-
         med_details['strength'] = extract_with_css('div[title="Strength"] ::text')
+        manufacturer_link = extract_with_css('div[title ="Manufactured by"] a ::attr(href)')
+        med_details['manufacturer_id'] = re.findall("companies/(\S*)/", manufacturer_link)[0]
 
         yield med_details
