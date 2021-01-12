@@ -8,6 +8,14 @@ class MedSpider(scrapy.Spider):
     allowed_domains = ['medex.com.bd']
     start_urls = ['https://medex.com.bd/brands?page=1']
 
+    def clean_text(self, raw_html):
+        """
+        :param raw_html: this will take raw html code
+        :return: text without html tags
+        """
+        cleaner = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
+        return re.sub(cleaner, '', raw_html)
+
     def parse(self, response):
         for med_info in response.css('a.hoverable-block'):
             med_page_links = med_info.css('a.hoverable-block ::attr("href") ')
@@ -19,6 +27,7 @@ class MedSpider(scrapy.Spider):
     def parse_med(self, response):
         def extract_with_css(query):
             return response.css(query).get(default='').strip()
+
         med_details = dict()
         med_details['brand_name'] = response.xpath(
             '/html/body/main/section/div[2]/div/div[1]/div/div[1]/h1/span[2]/text() ').get()
@@ -29,7 +38,15 @@ class MedSpider(scrapy.Spider):
         med_details['strength'] = extract_with_css('div[title="Strength"] ::text')
         manufacturer_link = extract_with_css('div[title ="Manufactured by"] a ::attr(href)')
         med_details['manufacturer_id'] = re.findall("companies/(\S*)/", manufacturer_link)[0]
-        med_details['package_container'] = extract_with_css('div.package-container ::text')
+        # med_details['package_container'] = [self.clean_text(spec_value).strip() for spec_value in response.css(
+        # 'div.package-container').getall()]
+
+
+        # todo : debug package container
+        # https://medex.com.bd/brands/7701/3rd-cef-100mg
+        # https://medex.com.bd/brands/9538/3-f-500mg
+
+        med_details['package_container'] = extract_with_css('div.package-container ::text ')
         med_details['pack_size_info'] = extract_with_css('span.pack-size-info ::text')
 
         yield med_details
