@@ -29,5 +29,6 @@ class MedSpider(scrapy.Spider):
         med_details['strength'] = extract_with_css('div[title="Strength"] ::text')
         manufacturer_link = extract_with_css('div[title ="Manufactured by"] a ::attr(href)')
         med_details['manufacturer_id'] = re.findall("companies/(\S*)/", manufacturer_link)[0]
+        med_details['package_container'] = extract_with_css('div.package-container ::text')
 
         yield med_details
