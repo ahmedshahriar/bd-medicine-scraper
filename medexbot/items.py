@@ -9,4 +9,6 @@ import scrapy
 class MedexbotItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    brand_name = scrapy.Field()
+    dosage_form = scrapy.Field()
+    generic_id = scrapy.Field()

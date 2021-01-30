@@ -30,14 +30,14 @@ class MedSpider(scrapy.Spider):
 
         med_details = dict()
         med_details['brand_name'] = response.xpath(
-            '/html/body/main/section/div[2]/div/div[1]/div/div[1]/h1/span[2]/text() ').get()
+            '/html/body/main/section/div[2]/div/div[1]/div/div[1]/h1/span[2]/text() ').get().strip()
         med_details['dosage_form'] = extract_with_css('small.h1-subtitle ::text')
         # generic_name = extract_with_css('div[title="Generic Name"] a ::text')
         generic_link = extract_with_css('div[title="Generic Name"] a ::attr(href)')
         med_details['generic_id'] = re.findall("generics/(\S*)/", generic_link)[0]
-        med_details['strength'] = extract_with_css('div[title="Strength"] ::text')
-        manufacturer_link = extract_with_css('div[title ="Manufactured by"] a ::attr(href)')
-        med_details['manufacturer_id'] = re.findall("companies/(\S*)/", manufacturer_link)[0]
+        # med_details['strength'] = extract_with_css('div[title="Strength"] ::text')
+        # manufacturer_link = extract_with_css('div[title ="Manufactured by"] a ::attr(href)')
+        # med_details['manufacturer_id'] = re.findall("companies/(\S*)/", manufacturer_link)[0]
         # med_details['package_container'] = [self.clean_text(spec_value).strip() for spec_value in response.css(
         # 'div.package-container').getall()]
 
@@ -46,7 +46,7 @@ class MedSpider(scrapy.Spider):
         # https://medex.com.bd/brands/7701/3rd-cef-100mg
         # https://medex.com.bd/brands/9538/3-f-500mg
 
-        med_details['package_container'] = extract_with_css('div.package-container ::text ')
-        med_details['pack_size_info'] = extract_with_css('span.pack-size-info ::text')
+        # med_details['package_container'] = extract_with_css('div.package-container ::text ')
+        # med_details['pack_size_info'] = extract_with_css('span.pack-size-info ::text')
 
         yield med_details
