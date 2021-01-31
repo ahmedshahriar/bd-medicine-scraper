@@ -29,6 +29,7 @@ class MedSpider(scrapy.Spider):
             return response.css(query).get(default='').strip()
 
         med_details = dict()
+        med_details['med_id'] = re.findall("brands/(\S*)/", response.url)[0]
         med_details['brand_name'] = response.css('h1.page-heading-1-l span ::text').getall()[0].strip()
         med_details['dosage_form'] = extract_with_css('small.h1-subtitle ::text')
         # generic_name = extract_with_css('div[title="Generic Name"] a ::text')
