@@ -7,6 +7,11 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
+# todo scrapy django integration exploring new techniques
+# https://github.com/bipul21/scrapy_django
+
+# adding  https://github.com/scrapy-plugins/scrapy-djangoitem
+
 BOT_NAME = 'medexbot'
 
 SPIDER_MODULES = ['medexbot.spiders']
@@ -62,9 +67,9 @@ TELNETCONSOLE_ENABLED = False
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'medexbot.pipelines.MedexbotPipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'medexbot.pipelines.MedexbotPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

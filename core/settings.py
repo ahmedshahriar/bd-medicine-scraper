@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # custom application
-CUSTOM_APP = ['crawler']
+CUSTOM_APP = ['crawler', 'medexbot']
 # Application definition
 
 INSTALLED_APPS = [

@@ -3,13 +3,11 @@
 # See documentation in:
 # https://docs.scrapy.org/en/latest/topics/items.html
 
-import scrapy
+from scrapy_djangoitem import DjangoItem
+
+from crawler.models import Medicine
 
 
-class MedexbotItem(scrapy.Item):
+class MedexbotItem(DjangoItem):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    # brand_name = scrapy.Field()
-    # dosage_form = scrapy.Field()
-    # generic_id = scrapy.Field()
-    pass
+    django_model = Medicine

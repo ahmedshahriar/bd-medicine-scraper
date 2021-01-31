@@ -2,6 +2,8 @@ import re
 
 import scrapy
 
+from medexbot.items import MedexbotItem
+
 
 class MedSpider(scrapy.Spider):
     name = "med"
@@ -17,19 +19,19 @@ class MedSpider(scrapy.Spider):
         return re.sub(cleaner, '', raw_html)
 
     def parse(self, response):
-        for med_info in response.css('a.hoverable-block'):
+        for med_info in response.css('a.hoverable-block')[:2]:
             med_page_links = med_info.css('a.hoverable-block ::attr("href") ')
             yield from response.follow_all(med_page_links, self.parse_med)
 
-            pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
-            yield from response.follow_all(pagination_links, self.parse)
+            # pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
+            # yield from response.follow_all(pagination_links, self.parse)
 
     def parse_med(self, response):
         def extract_with_css(query):
             return response.css(query).get(default='').strip()
 
         med_details = dict()
-        med_details['med_id'] = re.findall("brands/(\S*)/", response.url)[0]
+        med_details['brand_id'] = re.findall("brands/(\S*)/", response.url)[0]
         med_details['brand_name'] = response.css('h1.page-heading-1-l span ::text').getall()[0].strip()
         med_details['dosage_form'] = extract_with_css('small.h1-subtitle ::text')
         # generic_name = extract_with_css('div[title="Generic Name"] a ::text')
@@ -49,4 +51,10 @@ class MedSpider(scrapy.Spider):
         # med_details['package_container'] = extract_with_css('div.package-container ::text ')
         # med_details['pack_size_info'] = extract_with_css('span.pack-size-info ::text')
 
-        yield med_details
+        # yield med_details
+        item = MedexbotItem()
+        item['brand_id'] = med_details['brand_id']
+        item['brand_name'] = med_details['brand_name']
+        item['dosage_form'] = med_details['dosage_form']
+        item['generic_id'] = med_details['generic_id']
+        yield item
