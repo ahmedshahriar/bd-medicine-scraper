@@ -29,8 +29,7 @@ class MedSpider(scrapy.Spider):
             return response.css(query).get(default='').strip()
 
         med_details = dict()
-        med_details['brand_name'] = response.xpath(
-            '/html/body/main/section/div[2]/div/div[1]/div/div[1]/h1/span[2]/text() ').get().strip()
+        med_details['brand_name'] = response.css('h1.page-heading-1-l span ::text').getall()[0].strip()
         med_details['dosage_form'] = extract_with_css('small.h1-subtitle ::text')
         # generic_name = extract_with_css('div[title="Generic Name"] a ::text')
         generic_link = extract_with_css('div[title="Generic Name"] a ::attr(href)')
