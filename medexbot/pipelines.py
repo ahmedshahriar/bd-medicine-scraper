@@ -9,17 +9,17 @@ import logging
 
 from itemadapter import ItemAdapter
 
-# from crawler.models import Medicine
+from crawler.models import Medicine
 
 
 class MedexbotPipeline:
     def process_item(self, item, spider):
         logging.info("MedexbotPipeline: Processing item")
-        # try:
-        #     medicine = Medicine.objects.get(brand_id=item["brand_id"])
-        #     print("Medicine already exist")
-        #     return item
-        # except Medicine.DoesNotExist:
-        #     pass
+        try:
+            medicine = Medicine.objects.get(brand_id=item["brand_id"])
+            print("Medicine already exist")
+            return item
+        except Medicine.DoesNotExist:
+            pass
         item.save()
         return item
