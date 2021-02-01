@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 
-from medexbot.spiders.med_parser import MedSpider
+from medexbot.spiders.med_spider import MedSpider
 
 
 class Command(BaseCommand):

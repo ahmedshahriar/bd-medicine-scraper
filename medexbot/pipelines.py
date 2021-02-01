@@ -7,14 +7,18 @@
 # useful for handling different item types with a single interface
 import logging
 
-from itemadapter import ItemAdapter
-
 from crawler.models import Medicine
+from medexbot.items import MedexbotItem
 
 
 class MedexbotPipeline:
     def process_item(self, item, spider):
+        if isinstance(item, MedexbotItem):
+            return self.handleMeds(item, spider)
         logging.info("MedexbotPipeline: Processing item")
+
+
+    def handleMeds(self, item, spider):
         try:
             medicine = Medicine.objects.get(brand_id=item["brand_id"])
             print("Medicine already exist")
