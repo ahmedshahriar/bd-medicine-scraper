@@ -2,7 +2,7 @@ import re
 
 import scrapy
 
-from medexbot.items import MedexbotItem
+from medexbot.items import MedItem
 
 
 class MedSpider(scrapy.Spider):
@@ -52,7 +52,7 @@ class MedSpider(scrapy.Spider):
         # med_details['pack_size_info'] = extract_with_css('span.pack-size-info ::text')
 
         # yield med_details
-        item = MedexbotItem()
+        item = MedItem()
         item['brand_id'] = med_details['brand_id']
         item['brand_name'] = med_details['brand_name']
         item['dosage_form'] = med_details['dosage_form']

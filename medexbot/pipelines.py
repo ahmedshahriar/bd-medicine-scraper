@@ -8,12 +8,12 @@
 import logging
 
 from crawler.models import Medicine
-from medexbot.items import MedexbotItem
+from medexbot.items import MedItem
 
 
 class MedexbotPipeline:
     def process_item(self, item, spider):
-        if isinstance(item, MedexbotItem):
+        if isinstance(item, MedItem):
             return self.handleMeds(item, spider)
         logging.info("MedexbotPipeline: Processing item")
 
@@ -21,7 +21,7 @@ class MedexbotPipeline:
     def handleMeds(self, item, spider):
         try:
             medicine = Medicine.objects.get(brand_id=item["brand_id"])
-            print("Medicine already exist")
+            print("Medicine already exists")
             return item
         except Medicine.DoesNotExist:
             pass

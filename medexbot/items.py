@@ -8,6 +8,6 @@ from scrapy_djangoitem import DjangoItem
 from crawler.models import Medicine
 
 
-class MedexbotItem(DjangoItem):
+class MedItem(DjangoItem):
     # define the fields for your item here like:
     django_model = Medicine

@@ -13,3 +13,15 @@ class GenericsSpider(scrapy.Spider):
         pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
         # response.css('span[property="city"]::text').extract_first()
         yield from response.follow_all(pagination_links, self.parse)
+
+    def parse_generic(self, response):
+
+        generics_details = dict()
+
+        generics_details['monograph_link'] = response.css('span.hidden-sm a ::attr(href)').get()
+        """ medicine description """
+        # ###indications
+        generics_details['indications'] = response.css('div#indications h4 ::text').get().strip()
+        generics_details['indication_description'] = response.xpath('//div[@id="indications"]/following-sibling::node()[2]').get().strip()
+
+        yield generics_details
