@@ -19,7 +19,7 @@ class MedSpider(scrapy.Spider):
         return re.sub(cleaner, '', raw_html)
 
     def parse(self, response):
-        for med_info in response.css('a.hoverable-block')[:2]:
+        for med_info in response.css('a.hoverable-block'):
             med_page_links = med_info.css('a.hoverable-block ::attr("href") ')
             yield from response.follow_all(med_page_links, self.parse_med)
 

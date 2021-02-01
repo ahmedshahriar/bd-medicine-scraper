@@ -2,6 +2,8 @@ import re
 
 import scrapy
 
+from medexbot.items import GenericItem
+
 
 class GenericSpider(scrapy.Spider):
     name = "generic"
@@ -28,4 +30,9 @@ class GenericSpider(scrapy.Spider):
         generic_details['indication_description'] = response.xpath(
             '//div[@id="indications"]/following-sibling::node()[2]').get().strip()
 
-        yield generic_details
+        item = GenericItem()
+        item['generic_id'] = generic_details['generic_id']
+        item['generic_name'] = generic_details['generic_name']
+        item['monograph_link'] = generic_details['monograph_link']
+        item['indication_description'] = generic_details['indication_description']
+        yield item
