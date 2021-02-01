@@ -20,6 +20,7 @@ class GenericSpider(scrapy.Spider):
         generic_details = dict()
 
         generic_details['generic_id'] = re.findall("generics/(\S*)/", response.url)[0]
+        generic_details['generic_name'] = response.css('h1.page-heading-1-l ::text').get().strip()
         generic_details['monograph_link'] = response.css('span.hidden-sm a ::attr(href)').get()
         """ medicine description """
         # indications

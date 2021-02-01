@@ -5,7 +5,7 @@
 
 from scrapy_djangoitem import DjangoItem
 
-from crawler.models import Medicine
+from crawler.models import Medicine, Generic
 
 
 class MedItem(DjangoItem):
