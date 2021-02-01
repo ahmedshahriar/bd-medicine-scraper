@@ -1,8 +1,10 @@
+import re
+
 import scrapy
 
 
-class GenericsSpider(scrapy.Spider):
-    name = "generics"
+class GenericSpider(scrapy.Spider):
+    name = "generic"
     allowed_domains = ['medex.com.bd']
     start_urls = ['https://medex.com.bd/generics?page=1']
 
@@ -15,13 +17,14 @@ class GenericsSpider(scrapy.Spider):
         yield from response.follow_all(pagination_links, self.parse)
 
     def parse_generic(self, response):
+        generic_details = dict()
 
-        generics_details = dict()
-
-        generics_details['monograph_link'] = response.css('span.hidden-sm a ::attr(href)').get()
+        generic_details['generic_id'] = re.findall("generics/(\S*)/", response.url)[0]
+        generic_details['monograph_link'] = response.css('span.hidden-sm a ::attr(href)').get()
         """ medicine description """
-        # ###indications
-        generics_details['indications'] = response.css('div#indications h4 ::text').get().strip()
-        generics_details['indication_description'] = response.xpath('//div[@id="indications"]/following-sibling::node()[2]').get().strip()
+        # indications
+        generic_details['indications'] = response.css('div#indications h4 ::text').get().strip()
+        generic_details['indication_description'] = response.xpath(
+            '//div[@id="indications"]/following-sibling::node()[2]').get().strip()
 
-        yield generics_details
+        yield generic_details

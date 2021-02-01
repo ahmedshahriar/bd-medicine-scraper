@@ -11,3 +11,8 @@ from crawler.models import Medicine
 class MedItem(DjangoItem):
     # define the fields for your item here like:
     django_model = Medicine
+
+
+class GenericItem(DjangoItem):
+    # define the fields for your item here like:
+    django_model = Generic

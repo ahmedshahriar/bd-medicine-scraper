@@ -13,9 +13,12 @@ from medexbot.items import MedItem
 
 class MedexbotPipeline:
     def process_item(self, item, spider):
+        logging.info("MedexbotPipeline: Processing item")
         if isinstance(item, MedItem):
             return self.handleMeds(item, spider)
-        logging.info("MedexbotPipeline: Processing item")
+        if isinstance(item, MedItem):
+            return self.handleMeds(item, spider)
+
 
 
     def handleMeds(self, item, spider):

@@ -11,4 +11,12 @@ class Medicine(models.Model):
     def __str__(self):
         return self.brand_name
 
+class Generic(models.Model):
+    generic_id = models.IntegerField()
+    monograph_link = models.CharField(max_length=255)
+    indication_description = models.CharField(max_length=255)
+
+
+    def __str__(self):
+        return self.brand_name
 
