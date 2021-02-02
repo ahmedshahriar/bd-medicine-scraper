@@ -26,13 +26,11 @@ class GenericSpider(scrapy.Spider):
         generic_details['monograph_link'] = response.css('span.hidden-sm a ::attr(href)').get()
         """ medicine description """
         # indications
-        generic_details['indications'] = response.css('div#indications h4 ::text').get().strip()
+        # generic_details['indications'] = response.css('div#indications h4 ::text').get().strip()
         generic_details['indication_description'] = response.xpath(
             '//div[@id="indications"]/following-sibling::node()[2]').get().strip()
 
         item = GenericItem()
-        item['generic_id'] = generic_details['generic_id']
-        item['generic_name'] = generic_details['generic_name']
-        item['monograph_link'] = generic_details['monograph_link']
-        item['indication_description'] = generic_details['indication_description']
+        for k, v in generic_details.items():
+            item[k] = v
         yield item

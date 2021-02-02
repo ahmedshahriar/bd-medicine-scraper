@@ -3,6 +3,9 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
+# useful links
+# https://stackoverflow.com/questions/32743469/scrapy-python-multiple-item-classes-in-one-pipeline
+#
 
 # useful for handling different item types with a single interface
 import logging

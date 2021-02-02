@@ -1,3 +1,4 @@
+import copy
 import re
 
 import scrapy
@@ -43,7 +44,6 @@ class MedSpider(scrapy.Spider):
         # med_details['package_container'] = [self.clean_text(spec_value).strip() for spec_value in response.css(
         # 'div.package-container').getall()]
 
-
         # todo : debug package container
         # https://medex.com.bd/brands/7701/3rd-cef-100mg
         # https://medex.com.bd/brands/9538/3-f-500mg
@@ -53,8 +53,7 @@ class MedSpider(scrapy.Spider):
 
         # yield med_details
         item = MedItem()
-        item['brand_id'] = med_details['brand_id']
-        item['brand_name'] = med_details['brand_name']
-        item['dosage_form'] = med_details['dosage_form']
-        item['generic_id'] = med_details['generic_id']
+        for k, v in med_details.items():
+            item[k] = v
+
         yield item
