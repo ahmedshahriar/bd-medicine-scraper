@@ -30,6 +30,16 @@ class GenericSpider(scrapy.Spider):
         generic_details['indication_description'] = response.xpath(
             '//div[@id="indications"]/following-sibling::node()[2]').get().strip()
 
+        # ###Therapeutic Class
+        # therapeutic_class = extract_with_css('div#drug_classes h4 ::text')
+        generic_details['therapeutic_class_description'] = response.xpath(
+            '//div[@id="drug_classes"]/following-sibling::node()[2]').get()
+
+        # ###Pharmacology
+        # pharmacology = extract_with_css('div#mode_of_action h4 ::text')
+        generic_details['pharmacology_description'] = response.xpath(
+            '//div[@id="mode_of_action"]/following-sibling::node()[2]').get()
+
         item = GenericItem()
         for k, v in generic_details.items():
             item[k] = v
