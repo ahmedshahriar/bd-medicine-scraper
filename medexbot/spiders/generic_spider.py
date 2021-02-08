@@ -42,33 +42,56 @@ class GenericSpider(scrapy.Spider):
 
         # ##Dosage
         # dosage = extract_with_css('div#dosage h4 ::text')
-        dosage_description = response.xpath('//div[@id="dosage"]/following-sibling::node()[2]').get()
+        generic_details['dosage_description'] = response.xpath('//div[@id="dosage"]/following-sibling::node()[2]').get()
 
         # ##Administration
         # administration = extract_with_css('div#administration h4 ::text')
-        administration_description = response.xpath('//div[@id="administration"]/following-sibling::node()[2]').get()
+        generic_details['administration_description'] = response.xpath('//div[@id="administration"]/following-sibling::node()[2]').get()
 
         # ##Interaction
         # interaction = extract_with_css('div#interaction h4 ::text')
-        interaction_description = response.xpath('//div[@id="interaction"]/following-sibling::node()[2]').get()
+        generic_details['interaction_description'] = response.xpath('//div[@id="interaction"]/following-sibling::node()[2]').get()
 
         # ##Contraindications
         # contraindications = extract_with_css('div#contraindications h4 ::text')
-        contraindications_description = response.xpath(
+        generic_details['contraindications_description'] = response.xpath(
             '//div[@id="contraindications"]/following-sibling::node()[2]').get()
 
         # ##Side Effects
         # side_effects = extract_with_css('div#side_effects h4 ::text')
-        side_effects_description = response.xpath('//div[@id="side_effects"]/following-sibling::node()[2]').get()
+        generic_details['side_effects_description'] = response.xpath('//div[@id="side_effects"]/following-sibling::node()[2]').get()
 
         # ##Pregnancy & Lactation
         # pregnancy_and_lactation = extract_with_css('div#pregnancy_cat h4 ::text')
-        pregnancy_and_lactation_description = response.xpath(
+        generic_details['pregnancy_and_lactation_description'] = response.xpath(
             '//div[@id="pregnancy_cat"]/following-sibling::node()[2]').get()
 
         # ## Precautions
         # precautions = extract_with_css('div#precautions h4 ::text')
-        precautions_description = response.xpath('//div[@id="precautions"]/following-sibling::node()[2]').get()
+        generic_details['precautions_description'] = response.xpath('//div[@id="precautions"]/following-sibling::node()[2]').get()
+
+        # ## Use in Special Populations
+        # pediatric_usage = extract_with_css('div#pediatric_uses h4 ::text')
+        generic_details['pediatric_usage_description'] = response.xpath('//div[@id="pediatric_uses"]/following-sibling::node()[2]').get()
+
+        # ##Overdose Effects
+        # overdose_effects = extract_with_css('div#overdose_effects h4 ::text')
+        generic_details['overdose_effects_description'] = response.xpath(
+            '//div[@id="overdose_effects"]/following-sibling::node()[2]').get()
+
+        # ##Duration of treatment
+        # duration_of_treatment = extract_with_css('div#duration_of_treatment h4 ::text')
+        generic_details['duration_of_treatment_description'] = response.xpath(
+            '//div[@id="duration_of_treatment"]/following-sibling::node()[2]').get()
+
+        # ##Reconstitution
+        # reconstitution = extract_with_css('div#reconstitution h4 ::text')
+        generic_details['reconstitution_description'] = response.xpath('//div[@id="reconstitution"]/following-sibling::node()[2]').get()
+
+        # ##Storage Conditions
+        # storage_conditions = extract_with_css('div#storage_conditions h4 ::text')
+        generic_details['storage_conditions_description'] = response.xpath(
+            '//div[@id="storage_conditions"]/following-sibling::node()[2]').get()
 
         item = GenericItem()
         for k, v in generic_details.items():
