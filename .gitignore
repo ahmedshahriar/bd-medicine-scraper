@@ -2,8 +2,12 @@
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
 # User-specific stuff
 .DS_Store
-migrations/*
-!migrations/__init__.py
+# Ignore Django Migrations in Development if you are working on team
+
+# Only for Development only
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py
 .idea
 .env
 .idea/**/workspace.xml
