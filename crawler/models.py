@@ -33,6 +33,7 @@ class Generic(models.Model):
     generic_name = models.CharField(max_length=255, blank=False, null=False)
     slug = models.SlugField(max_length=250, unique_for_date='created')
     monograph_link = models.TextField()
+
     indication_description = models.TextField(null=True, blank=True)
     therapeutic_class_description = models.TextField(null=True, blank=True)
     pharmacology_description = models.TextField(null=True, blank=True)
@@ -48,6 +49,7 @@ class Generic(models.Model):
     duration_of_treatment_description = models.TextField(null=True, blank=True)
     reconstitution_description = models.TextField(null=True, blank=True)
     storage_conditions_description = models.TextField(null=True, blank=True)
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -61,7 +63,15 @@ class Generic(models.Model):
 
     @property
     def desc_count(self):
-        desc = Length(self.indication_description)
+        class_attr = (self.indication_description, self.therapeutic_class_description, self.pharmacology_description,
+                      self.dosage_description, self.administration_description, self.interaction_description,
+                      self.contraindications_description, self.side_effects_description, self.precautions_description,
+                      self.pregnancy_and_lactation_description, self.pediatric_usage_description,
+                      self.overdose_effects_description, self.duration_of_treatment_description,
+                      self.reconstitution_description, self.storage_conditions_description )
+        desc = sum([1 if len(str(x)) > 4 else 0 for x in class_attr])
+        # desc = 1 if len(str(self.administration_description).strip()) >= 1 else 0
+        # desc = 1 if len(str(self.administration_description).strip()) > 4 else 0
         return desc
 
     def __str__(self):

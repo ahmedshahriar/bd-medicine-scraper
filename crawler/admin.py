@@ -16,6 +16,7 @@ class MedicineAdmin(admin.ModelAdmin):
 
 class GenericAdmin(admin.ModelAdmin):
     list_display = ('generic_id', 'generic_name', 'monograph_link', 'desc_count')
+    prepopulated_fields = {'slug': ('generic_name',)}
 
 
 admin.site.register(Generic, GenericAdmin)
