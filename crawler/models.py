@@ -59,6 +59,11 @@ class Generic(models.Model):
             models.Index(fields=['generic_name'], name='%(app_label)s_%(class)s_name_index'),
         ]
 
+    @property
+    def desc_count(self):
+        desc = Length(self.indication_description)
+        return desc
+
     def __str__(self):
         return self.generic_name
 
