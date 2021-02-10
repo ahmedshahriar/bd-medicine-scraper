@@ -22,7 +22,7 @@ class MedexbotPipeline:
         if isinstance(item, GenericItem):
             return self.handle_generic(item, spider)
         if isinstance(item, ManufacturerItem):
-            return self.handle_generic(item, spider)
+            return self.handle_manufacturer(item, spider)
 
     def handle_meds(self, item, spider):
         try:
@@ -49,7 +49,7 @@ class MedexbotPipeline:
             manufacturer = Manufacturer.objects.get(manufacturer_id=item["manufacturer_id"])
             print("generic already exists")
             return item
-        except Generic.DoesNotExist:
+        except Manufacturer.DoesNotExist:
             pass
         item.save()
         return item

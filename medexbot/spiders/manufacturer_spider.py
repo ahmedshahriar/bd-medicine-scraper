@@ -2,6 +2,8 @@ import re
 
 import scrapy
 
+from medexbot.items import ManufacturerItem
+
 
 class ManufacturerSpider(scrapy.Spider):
     name = "manufacturer"
@@ -24,7 +26,12 @@ class ManufacturerSpider(scrapy.Spider):
             manufacturer_details["manufacturer_name"] = company_info.css('div.data-row-top a ::text').get()
             manufacturer_details["generics"] = generic_counter
             manufacturer_details["brand_names"] = brand_name_counter
-            print(manufacturer_details)
+            # print(manufacturer_details)
 
-        pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
-        yield from response.follow_all(pagination_links, self.parse)
+            item = ManufacturerItem()
+            for k, v in manufacturer_details.items():
+                item[k] = v
+            yield item
+
+        # pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
+        # yield from response.follow_all(pagination_links, self.parse)
