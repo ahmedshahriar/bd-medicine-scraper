@@ -17,12 +17,12 @@ class ManufacturerSpider(scrapy.Spider):
             manufacturer_link = company_info.css('div.data-row-top a ::attr(href)').get()
             manufacturer_id = re.findall("companies/(\S*)/", manufacturer_link)[0]
 
-            yield {
+            print( {
                 "manufacturer_id": manufacturer_id,
                 "manufacturer_name": company_info.css('div.data-row-top a ::text').get(),
                 # "stat": company_info.xpath('//div[@class="data-row-top"]/following-sibling::node()[1]').get()
                 "stat": company_info.css('div.col-xs-12 ::text').extract()[-1].strip()
-            }
+            })
 
-        pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
-        yield from response.follow_all(pagination_links, self.parse)
+        # pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
+        # yield from response.follow_all(pagination_links, self.parse)
