@@ -16,7 +16,6 @@ class MedicineAdmin(admin.ModelAdmin):
 
 class GenericAdmin(admin.ModelAdmin):
     list_display = ('generic_id', 'generic_name', 'monograph_link', 'desc_counter')
-    # todo add desc_count filter
     list_filter = ('created', 'desc_counter')
     search_fields = ('generic_name', )
     prepopulated_fields = {'slug': ('generic_name',)}

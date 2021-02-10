@@ -69,14 +69,15 @@ class Generic(models.Model):
                           self.pharmacology_description, self.dosage_description,
                           self.administration_description, self.interaction_description,
                           self.contraindications_description, self.side_effects_description,
-                          self.precautions_description,self.pregnancy_and_lactation_description,
-                          self.pediatric_usage_description,self.overdose_effects_description,
-                          self.duration_of_treatment_description,self.reconstitution_description,
+                          self.precautions_description, self.pregnancy_and_lactation_description,
+                          self.pediatric_usage_description, self.overdose_effects_description,
+                          self.duration_of_treatment_description, self.reconstitution_description,
                           self.storage_conditions_description)
             self.desc_counter = sum([1 if len(str(x)) > 4 else 0 for x in class_attr])
             super(Generic, self).save(*args, **kwargs)
         except Exception as e:
             pass
+
     # todo best approach to save and store counter value
     # @property
     # def desc_count(self):
@@ -95,3 +96,25 @@ class Generic(models.Model):
 
     def __str__(self):
         return self.generic_name
+
+
+class Manufacturer(models.Model):
+    manufacturer_id = models.IntegerField(blank=False, null=False, unique=True)
+    manufacturer_name = models.CharField(max_length=255, blank=False, null=False)
+    slug = models.SlugField(max_length=250, unique_for_date='created')
+    generics = models.IntegerField()
+    brand_names = models.IntegerField()
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('manufacturer_name',)
+        verbose_name = "manufacturer"
+        verbose_name_plural = 'manufacturers'
+        indexes = [
+            models.Index(fields=['manufacturer_name'], name='%(app_label)s_MANF_name_index'),
+        ]
+
+    def __str__(self):
+        return self.manufacturer_name
