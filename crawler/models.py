@@ -1,6 +1,5 @@
 from django.db import models
 
-
 # Create your models here.
 from django.db.models.functions import Length
 
@@ -68,13 +67,14 @@ class Generic(models.Model):
                       self.contraindications_description, self.side_effects_description, self.precautions_description,
                       self.pregnancy_and_lactation_description, self.pediatric_usage_description,
                       self.overdose_effects_description, self.duration_of_treatment_description,
-                      self.reconstitution_description, self.storage_conditions_description )
+                      self.reconstitution_description, self.storage_conditions_description)
         desc = sum([1 if len(str(x)) > 4 else 0 for x in class_attr])
         # desc = 1 if len(str(self.administration_description).strip()) >= 1 else 0
         # desc = 1 if len(str(self.administration_description).strip()) > 4 else 0
         return desc
+    # rename property : https://stackoverflow.com/questions/7241000/django-short-description-for-property
+    desc_count.fget.short_description = 'Descriptions Count'
 
     def __str__(self):
         return self.generic_name
 
-    # todo add counter value for all desc
