@@ -1,8 +1,7 @@
 from django.db import models
 
-# Create your models here.
-from django.db.models.functions import Length
 
+# Create your models here.
 
 class Medicine(models.Model):
     brand_id = models.IntegerField(blank=False, null=False, unique=True)

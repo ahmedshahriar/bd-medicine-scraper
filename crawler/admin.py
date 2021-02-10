@@ -1,7 +1,24 @@
+import string
+
 from django.contrib import admin
 
 # Register your models here.
 from crawler.models import Medicine, Generic, Manufacturer
+
+# https://gist.github.com/ahmedshahriar/4240f0451261c4bb8364dd5341c7cf59
+# https://books.agiliq.com/projects/django-admin-cookbook/en/latest/filtering_calculated_fields.html
+
+class AlphabetFilter(admin.SimpleListFilter):
+    title = 'alphabet'
+    parameter_name = 'alphabet'
+
+    def lookups(self, request, model_admin):
+        abc = list(string.ascii_lowercase)
+        return ((c.upper(), c.upper()) for c in abc)
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(manufacturer_name__startswith=self.value())
 
 
 @admin.register(Medicine)
@@ -27,7 +44,7 @@ class GenericAdmin(admin.ModelAdmin):
 @admin.register(Manufacturer)
 class ManufacturerAdmin(admin.ModelAdmin):
     list_display = ('manufacturer_id', 'manufacturer_name', 'generics', 'brand_names')
-    list_filter = ('created', )
+    list_filter = ('created', AlphabetFilter, )
     search_fields = ('manufacturer_name',)
     prepopulated_fields = {'slug': ('manufacturer_name',)}
     date_hierarchy = 'created'
