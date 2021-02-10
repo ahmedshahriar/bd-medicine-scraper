@@ -10,8 +10,8 @@
 # useful for handling different item types with a single interface
 import logging
 
-from crawler.models import Medicine, Generic
-from medexbot.items import MedItem, GenericItem
+from crawler.models import Medicine, Generic, Manufacturer
+from medexbot.items import MedItem, GenericItem, ManufacturerItem
 
 
 class MedexbotPipeline:
@@ -20,6 +20,8 @@ class MedexbotPipeline:
         if isinstance(item, MedItem):
             return self.handle_meds(item, spider)
         if isinstance(item, GenericItem):
+            return self.handle_generic(item, spider)
+        if isinstance(item, ManufacturerItem):
             return self.handle_generic(item, spider)
 
     def handle_meds(self, item, spider):
@@ -35,6 +37,16 @@ class MedexbotPipeline:
     def handle_generic(self, item, spider):
         try:
             generic = Generic.objects.get(generic_id=item["generic_id"])
+            print("generic already exists")
+            return item
+        except Generic.DoesNotExist:
+            pass
+        item.save()
+        return item
+
+    def handle_manufacturer(self, item, spider):
+        try:
+            manufacturer = Manufacturer.objects.get(manufacturer_id=item["manufacturer_id"])
             print("generic already exists")
             return item
         except Generic.DoesNotExist:
