@@ -31,7 +31,7 @@ class Generic(models.Model):
     generic_id = models.IntegerField(blank=False, null=False, unique=True)
     generic_name = models.CharField(max_length=255, blank=False, null=False)
     slug = models.SlugField(max_length=250, unique_for_date='created')
-    monograph_link = models.TextField()
+    monograph_link = models.TextField(null=True, blank=True)
 
     indication_description = models.TextField(null=True, blank=True)
     therapeutic_class_description = models.TextField(null=True, blank=True)
@@ -49,6 +49,9 @@ class Generic(models.Model):
     reconstitution_description = models.TextField(null=True, blank=True)
     storage_conditions_description = models.TextField(null=True, blank=True)
 
+    # counter for sum of all description
+    desc_counter = models.IntegerField(default=0)
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -60,21 +63,35 @@ class Generic(models.Model):
             models.Index(fields=['generic_name'], name='%(app_label)s_%(class)s_name_index'),
         ]
 
-    @property
-    def desc_count(self):
-        class_attr = (self.indication_description, self.therapeutic_class_description, self.pharmacology_description,
-                      self.dosage_description, self.administration_description, self.interaction_description,
-                      self.contraindications_description, self.side_effects_description, self.precautions_description,
-                      self.pregnancy_and_lactation_description, self.pediatric_usage_description,
-                      self.overdose_effects_description, self.duration_of_treatment_description,
-                      self.reconstitution_description, self.storage_conditions_description)
-        desc = sum([1 if len(str(x)) > 4 else 0 for x in class_attr])
-        # desc = 1 if len(str(self.administration_description).strip()) >= 1 else 0
-        # desc = 1 if len(str(self.administration_description).strip()) > 4 else 0
-        return desc
-    # rename property : https://stackoverflow.com/questions/7241000/django-short-description-for-property
-    desc_count.fget.short_description = 'Descriptions Count'
+    def save(self, *args, **kwargs):
+        try:
+            class_attr = (self.indication_description, self.therapeutic_class_description,
+                          self.pharmacology_description, self.dosage_description,
+                          self.administration_description, self.interaction_description,
+                          self.contraindications_description, self.side_effects_description,
+                          self.precautions_description,self.pregnancy_and_lactation_description,
+                          self.pediatric_usage_description,self.overdose_effects_description,
+                          self.duration_of_treatment_description,self.reconstitution_description,
+                          self.storage_conditions_description)
+            self.desc_counter = sum([1 if len(str(x)) > 4 else 0 for x in class_attr])
+            super(Generic, self).save(*args, **kwargs)
+        except Exception as e:
+            pass
+    # todo best approach to save and store counter value
+    # @property
+    # def desc_count(self):
+    #     class_attr = (self.indication_description, self.therapeutic_class_description, self.pharmacology_description,
+    #                   self.dosage_description, self.administration_description, self.interaction_description,
+    #                   self.contraindications_description, self.side_effects_description, self.precautions_description,
+    #                   self.pregnancy_and_lactation_description, self.pediatric_usage_description,
+    #                   self.overdose_effects_description, self.duration_of_treatment_description,
+    #                   self.reconstitution_description, self.storage_conditions_description)
+    #     desc = sum([1 if len(str(x)) > 4 else 0 for x in class_attr])
+    #     # desc = 1 if len(str(self.administration_description).strip()) >= 1 else 0
+    #     # desc = 1 if len(str(self.administration_description).strip()) > 4 else 0
+    #     return desc
+    # # rename property : https://stackoverflow.com/questions/7241000/django-short-description-for-property
+    # desc_count.fget.short_description = 'Descriptions Count'
 
     def __str__(self):
         return self.generic_name
-
