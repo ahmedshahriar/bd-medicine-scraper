@@ -28,13 +28,21 @@ class AlphabetFilter(admin.SimpleListFilter):
 
 @admin.register(Medicine)
 class MedicineAdmin(admin.ModelAdmin):
-    list_display = ('brand_id', 'brand_name', 'dosage_form', 'generic_id')
-    list_filter = ('generic_id', 'created', 'dosage_form', AlphabetFilter,)
+    list_display = ('brand_id', 'brand_name', 'dosage_form', 'generic_id', 'get_med_type')
+    list_filter = ('generic_id', 'dosage_form', AlphabetFilter, 'type', 'created')
     search_fields = ('brand_name', 'dosage_form')
     prepopulated_fields = {'slug': ('brand_name',)}
     # raw_id_fields = ('generic',)
     date_hierarchy = 'created'
     ordering = ('created',)
+
+    def get_med_type(self, obj):
+        if obj.type == 0:
+            return 'Allopathic'
+        else:
+            return 'Herbal'
+
+    get_med_type.short_description = 'Medicine Type'
 
 
 @admin.register(Generic)

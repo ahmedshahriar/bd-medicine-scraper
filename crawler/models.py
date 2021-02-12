@@ -6,6 +6,7 @@ from django.db import models
 class Medicine(models.Model):
     brand_id = models.IntegerField(blank=False, null=False, unique=True)
     brand_name = models.CharField(max_length=255, blank=False, null=False)
+    type = models.IntegerField(blank=False, null=False, default=0)
     slug = models.SlugField(max_length=250, unique_for_date='created')
     dosage_form = models.CharField(max_length=255)
     generic_id = models.IntegerField()

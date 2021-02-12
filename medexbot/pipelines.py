@@ -27,7 +27,7 @@ class MedexbotPipeline:
     def handle_meds(self, item, spider):
         try:
             medicine = Medicine.objects.get(brand_id=item["brand_id"])
-            print("Medicine already exists")
+            logging.info("Medicine already exists")
             return item
         except Medicine.DoesNotExist:
             pass
@@ -37,7 +37,7 @@ class MedexbotPipeline:
     def handle_generic(self, item, spider):
         try:
             generic = Generic.objects.get(generic_id=item["generic_id"])
-            print("generic already exists")
+            logging.info("generic already exists")
             return item
         except Generic.DoesNotExist:
             pass
@@ -47,7 +47,7 @@ class MedexbotPipeline:
     def handle_manufacturer(self, item, spider):
         try:
             manufacturer = Manufacturer.objects.get(manufacturer_id=item["manufacturer_id"])
-            print("generic already exists")
+            logging.info("generic already exists")
             return item
         except Manufacturer.DoesNotExist:
             pass

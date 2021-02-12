@@ -9,7 +9,7 @@ from medexbot.items import MedItem
 class MedSpider(scrapy.Spider):
     name = "med"
     allowed_domains = ['medex.com.bd']
-    start_urls = ['https://medex.com.bd/brands?page=1']
+    start_urls = ['https://medex.com.bd/brands?page=1', 'https://medex.com.bd/brands?herbal=1&page=1']
 
     def clean_text(self, raw_html):
         """
@@ -34,6 +34,7 @@ class MedSpider(scrapy.Spider):
         med_details = dict()
         med_details['brand_id'] = re.findall("brands/(\S*)/", response.url)[0]
         med_details['brand_name'] = response.css('h1.page-heading-1-l span ::text').getall()[0].strip()
+        med_details['type'] = 1 if response.css('h1.page-heading-1-l img ::attr(alt)').get().strip() == 'Herbal' else 0
         med_details['dosage_form'] = extract_with_css('small.h1-subtitle ::text')
         # generic_name = extract_with_css('div[title="Generic Name"] a ::text')
         generic_link = extract_with_css('div[title="Generic Name"] a ::attr(href)')
