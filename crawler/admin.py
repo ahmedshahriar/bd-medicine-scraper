@@ -66,7 +66,7 @@ class ManufacturerAdmin(admin.ModelAdmin):
 
 
 @admin.register(DosageForm)
-class ManufacturerAdmin(admin.ModelAdmin):
+class DosageFormAdmin(admin.ModelAdmin):
     list_display = ('dosage_form_id', 'dosage_form_name', 'brand_names_count')
     list_filter = ('created', AlphabetFilter,)
     search_fields = ('dosage_form_name',)

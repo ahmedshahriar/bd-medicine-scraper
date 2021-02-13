@@ -136,3 +136,21 @@ class DosageForm(models.Model):
 
     def __str__(self):
         return self.dosage_form_name
+
+
+class Indication(models.Model):
+    indication_id = models.IntegerField(blank=False, null=False, unique=True)
+    indication_name = models.CharField(max_length=255, blank=False, null=False)
+    slug = models.SlugField(max_length=250, unique_for_date='created')
+    generics_count = models.IntegerField()
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('indication_name',)
+        verbose_name = "indication"
+        verbose_name_plural = 'indications'
+
+    def __str__(self):
+        return self.indication_name
