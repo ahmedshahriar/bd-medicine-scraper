@@ -31,5 +31,6 @@ class DosageFormSpider(scrapy.Spider):
         item['brand_names_count'] = response.request.meta['brand_names_count']
 
         brand_name_links = response.css('a.hoverable-block  ::attr(href)').extract()
+        # todo brand ids mapping
         brand_name_ids = [re.findall("brands/(\S*)/", brand_name_link)[0] for brand_name_link in brand_name_links]
         yield item

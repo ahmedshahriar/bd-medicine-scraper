@@ -2,6 +2,8 @@ import re
 
 import scrapy
 
+from medexbot.items import IndicationItem
+
 
 class IndicationSpider(scrapy.Spider):
     name = "indication"
@@ -27,16 +29,13 @@ class IndicationSpider(scrapy.Spider):
         yield from response.follow_all(pagination_links, self.parse)
 
     def parse_indication(self, response):
-        indication_id = response.request.meta['indication_id']
-        indication_name = response.request.meta['indication_name']
-        generics_count = response.request.meta['generics_count']
+        item = IndicationItem()
+        item['indication_id'] = response.request.meta['indication_id']
+        item['indication_name'] = response.request.meta['indication_name']
+        item['generics_count'] = response.request.meta['generics_count']
 
         generic_links = response.css('div.data-row-top a ::attr(href)').extract()
+        # todo generic ids mapping
         generic_ids = [re.findall("generics/(\S*)/", generic_link)[0] for generic_link in generic_links]
 
-        yield {
-            "indication_id": indication_id,
-            "indication_name": indication_name,
-            "generics_count": generics_count,
-            "generic_ids": generic_ids
-        }
+        yield item
