@@ -22,7 +22,6 @@ class DrugClassSpider(scrapy.Spider):
         drug_class_name = response.request.meta['drug_class_name']
 
         generics_count = len(response.css('a.hoverable-block'))
-        # generics_count = 0 if len(brand_names_counter) == 0 else brand_names_counter[0]
 
         # todo generic ids mapping
         # generic_links = response.css('a.hoverable-block  ::attr(href)').extract()

@@ -5,7 +5,7 @@
 
 from scrapy_djangoitem import DjangoItem
 
-from crawler.models import Medicine, Generic, Manufacturer, DosageForm, Indication
+from crawler.models import Medicine, Generic, Manufacturer, DosageForm, Indication, DrugClass
 
 
 class MedItem(DjangoItem):
@@ -31,3 +31,8 @@ class DosageFormItem(DjangoItem):
 class IndicationItem(DjangoItem):
     # define the fields for your item here like:
     django_model = Indication
+
+
+class DrugClassItem(DjangoItem):
+    # define the fields for your item here like:
+    django_model = DrugClass

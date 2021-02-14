@@ -154,3 +154,21 @@ class Indication(models.Model):
 
     def __str__(self):
         return self.indication_name
+
+
+class DrugClass(models.Model):
+    drug_class_id = models.IntegerField(blank=False, null=False, unique=True)
+    drug_class_name = models.CharField(max_length=255, blank=False, null=False)
+    slug = models.SlugField(max_length=250, unique_for_date='created')
+    generics_count = models.IntegerField()
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('drug_class_name',)
+        verbose_name = "drug class"
+        verbose_name_plural = 'drug classes'
+
+    def __str__(self):
+        return self.drug_class_name
