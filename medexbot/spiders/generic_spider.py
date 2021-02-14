@@ -8,7 +8,7 @@ from medexbot.items import GenericItem
 class GenericSpider(scrapy.Spider):
     name = "generic"
     allowed_domains = ['medex.com.bd']
-    start_urls = ['https://medex.com.bd/generics?page=1']
+    start_urls = ['https://medex.com.bd/generics?page=1','https://medex.com.bd/generics?herbal=1']
 
     def parse(self, response):
         generic_page_links = response.css('a.hoverable-block ::attr("href") ')
