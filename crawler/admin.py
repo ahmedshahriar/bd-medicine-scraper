@@ -6,6 +6,7 @@ from django.contrib import admin
 from crawler.models import Medicine, Generic, Manufacturer, DosageForm, Indication, DrugClass
 
 
+# filtering
 # https://gist.github.com/ahmedshahriar/4240f0451261c4bb8364dd5341c7cf59
 # https://books.agiliq.com/projects/django-admin-cookbook/en/latest/filtering_calculated_fields.html
 

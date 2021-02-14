@@ -28,7 +28,10 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # custom application
-CUSTOM_APP = ['crawler', 'medexbot']
+CUSTOM_APPS = ['crawler', 'medexbot', 'api', ]
+
+PACKAGES = ['rest_framework', ]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-] + CUSTOM_APP
+] + CUSTOM_APPS + PACKAGES
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -119,3 +122,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.jangoModelPermissionsOrAnonReadOnly'
+    ]
+}
