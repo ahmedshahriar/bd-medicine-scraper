@@ -2,6 +2,8 @@ import re
 
 import scrapy
 
+from medexbot.items import DrugClassItem
+
 
 class DrugClassSpider(scrapy.Spider):
     name = "drug_class"
@@ -18,17 +20,13 @@ class DrugClassSpider(scrapy.Spider):
                                            meta={"drug_class_id": drug_class_id, "drug_class_name": drug_class_name})
 
     def parse_drug_generic(self, response):
-        drug_class_id = response.request.meta['drug_class_id']
-        drug_class_name = response.request.meta['drug_class_name']
-
-        generics_count = len(response.css('a.hoverable-block'))
+        item = DrugClassItem()
+        item['drug_class_id'] = response.request.meta['drug_class_id']
+        item['drug_class_name'] = response.request.meta['drug_class_name']
+        item['generics_count'] = len(response.css('a.hoverable-block'))
 
         # todo generic ids mapping
         # generic_links = response.css('a.hoverable-block  ::attr(href)').extract()
         # generic_ids = [re.findall("generics/(\S*)/", generic_link)[0] for generic_link in generic_links]
 
-        print( {
-            "drug_class_id": drug_class_id,
-            "drug_class_name": drug_class_name,
-            "generics_count": generics_count,
-        })
+        yield item

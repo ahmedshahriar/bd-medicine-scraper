@@ -3,7 +3,7 @@ import string
 from django.contrib import admin
 
 # Register your models here.
-from crawler.models import Medicine, Generic, Manufacturer, DosageForm
+from crawler.models import Medicine, Generic, Manufacturer, DosageForm, Indication, DrugClass
 
 
 # https://gist.github.com/ahmedshahriar/4240f0451261c4bb8364dd5341c7cf59
@@ -71,5 +71,25 @@ class DosageFormAdmin(admin.ModelAdmin):
     list_filter = ('created', AlphabetFilter,)
     search_fields = ('dosage_form_name',)
     prepopulated_fields = {'slug': ('dosage_form_name',)}
+    date_hierarchy = 'created'
+    ordering = ('created',)
+
+
+@admin.register(Indication)
+class IndicationAdmin(admin.ModelAdmin):
+    list_display = ('indication_id', 'indication_name', 'generics_count')
+    list_filter = ('created', AlphabetFilter,)
+    search_fields = ('indication_name',)
+    prepopulated_fields = {'slug': ('indication_name',)}
+    date_hierarchy = 'created'
+    ordering = ('created',)
+
+
+@admin.register(DrugClass)
+class IndicationAdmin(admin.ModelAdmin):
+    list_display = ('drug_class_id', 'drug_class_name', 'generics_count')
+    list_filter = ('created', AlphabetFilter,)
+    search_fields = ('drug_class_name',)
+    prepopulated_fields = {'slug': ('drug_class_name',)}
     date_hierarchy = 'created'
     ordering = ('created',)
