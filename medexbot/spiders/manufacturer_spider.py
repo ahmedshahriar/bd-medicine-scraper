@@ -26,7 +26,6 @@ class ManufacturerSpider(scrapy.Spider):
             manufacturer_details["manufacturer_name"] = company_info.css('div.data-row-top a ::text').get()
             manufacturer_details["generics_count"] = generic_counter
             manufacturer_details["brand_names_count"] = brand_name_counter
-            # print(manufacturer_details)
 
             item = ManufacturerItem()
             for k, v in manufacturer_details.items():
