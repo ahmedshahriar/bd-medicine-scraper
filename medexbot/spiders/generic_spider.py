@@ -45,11 +45,13 @@ class GenericSpider(scrapy.Spider):
 
         # ##Administration
         # administration = extract_with_css('div#administration h4 ::text')
-        generic_details['administration_description'] = response.xpath('//div[@id="administration"]/following-sibling::node()[2]').get()
+        generic_details['administration_description'] = response.xpath(
+            '//div[@id="administration"]/following-sibling::node()[2]').get()
 
         # ##Interaction
         # interaction = extract_with_css('div#interaction h4 ::text')
-        generic_details['interaction_description'] = response.xpath('//div[@id="interaction"]/following-sibling::node()[2]').get()
+        generic_details['interaction_description'] = response.xpath(
+            '//div[@id="interaction"]/following-sibling::node()[2]').get()
 
         # ##Contraindications
         # contraindications = extract_with_css('div#contraindications h4 ::text')
@@ -58,7 +60,8 @@ class GenericSpider(scrapy.Spider):
 
         # ##Side Effects
         # side_effects = extract_with_css('div#side_effects h4 ::text')
-        generic_details['side_effects_description'] = response.xpath('//div[@id="side_effects"]/following-sibling::node()[2]').get()
+        generic_details['side_effects_description'] = response.xpath(
+            '//div[@id="side_effects"]/following-sibling::node()[2]').get()
 
         # ##Pregnancy & Lactation
         # pregnancy_and_lactation = extract_with_css('div#pregnancy_cat h4 ::text')
@@ -67,11 +70,13 @@ class GenericSpider(scrapy.Spider):
 
         # ## Precautions
         # precautions = extract_with_css('div#precautions h4 ::text')
-        generic_details['precautions_description'] = response.xpath('//div[@id="precautions"]/following-sibling::node()[2]').get()
+        generic_details['precautions_description'] = response.xpath(
+            '//div[@id="precautions"]/following-sibling::node()[2]').get()
 
         # ## Use in Special Populations
         # pediatric_usage = extract_with_css('div#pediatric_uses h4 ::text')
-        generic_details['pediatric_usage_description'] = response.xpath('//div[@id="pediatric_uses"]/following-sibling::node()[2]').get()
+        generic_details['pediatric_usage_description'] = response.xpath(
+            '//div[@id="pediatric_uses"]/following-sibling::node()[2]').get()
 
         # ##Overdose Effects
         # overdose_effects = extract_with_css('div#overdose_effects h4 ::text')
@@ -85,7 +90,8 @@ class GenericSpider(scrapy.Spider):
 
         # ##Reconstitution
         # reconstitution = extract_with_css('div#reconstitution h4 ::text')
-        generic_details['reconstitution_description'] = response.xpath('//div[@id="reconstitution"]/following-sibling::node()[2]').get()
+        generic_details['reconstitution_description'] = response.xpath(
+            '//div[@id="reconstitution"]/following-sibling::node()[2]').get()
 
         # ##Storage Conditions
         # storage_conditions = extract_with_css('div#storage_conditions h4 ::text')

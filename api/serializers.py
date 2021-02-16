@@ -1,5 +1,6 @@
-from crawler.models import Medicine, Generic, Manufacturer
 from rest_framework import serializers
+
+from crawler.models import Medicine, Generic
 
 
 class MedicineSerializer(serializers.ModelSerializer):
@@ -11,4 +12,5 @@ class MedicineSerializer(serializers.ModelSerializer):
 class GenericSerializer(serializers.ModelSerializer):
     class Meta:
         model = Generic
-        fields = ['id', 'generic_name', 'slug', 'monograph_link', 'indication_description', 'therapeutic_class_description', 'descriptions_count']
+        fields = ['id', 'generic_name', 'slug', 'monograph_link', 'indication_description',
+                  'therapeutic_class_description', 'descriptions_count']

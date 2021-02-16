@@ -1,4 +1,5 @@
 from rest_framework import generics
+
 from crawler.models import Medicine
 from .serializers import MedicineSerializer
 

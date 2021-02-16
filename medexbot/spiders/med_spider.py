@@ -1,4 +1,4 @@
-import copy
+import logging
 import re
 
 import scrapy
@@ -40,11 +40,21 @@ class MedSpider(scrapy.Spider):
         # generic_name = extract_with_css('div[title="Generic Name"] a ::text')
         generic_link = extract_with_css('div[title="Generic Name"] a ::attr(href)')
         generic_id = re.findall("generics/(\S*)/", generic_link)[0]
-        med_details['generic'] = Generic.objects.get(generic_id=generic_id)
+        try:
+            med_details['generic'] = Generic.objects.get(generic_id=generic_id)
+        except Generic.DoesNotExist as ge:
+            logging.info(ge)
+            med_details['generic'] = None
+
         med_details['strength'] = extract_with_css('div[title="Strength"] ::text')
+
         manufacturer_link = extract_with_css('div[title ="Manufactured by"] a ::attr(href)')
         manufacturer_id = re.findall("companies/(\S*)/", manufacturer_link)[0]
-        med_details['manufacturer'] = Manufacturer.objects.get(manufacturer_id=manufacturer_id)
+        try:
+            med_details['manufacturer'] = Manufacturer.objects.get(manufacturer_id=manufacturer_id)
+        except Manufacturer.DoesNotExist as me:
+            logging.info(me)
+            med_details['manufacturer'] = None
         # med_details['package_container'] = [self.clean_text(spec_value).strip() for spec_value in response.css(
         # 'div.package-container').getall()]
 
