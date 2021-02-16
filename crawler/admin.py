@@ -36,7 +36,7 @@ class MedicineAdmin(admin.ModelAdmin):
     list_filter = ('generic_id', 'dosage_form', AlphabetFilter, 'type', 'created')
     search_fields = ('brand_name', 'dosage_form')
     prepopulated_fields = {'slug': ('brand_name',)}
-    # raw_id_fields = ('generic',)
+    raw_id_fields = ('generic', 'manufacturer')
     date_hierarchy = 'created'
     ordering = ('created',)
 
