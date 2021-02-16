@@ -2,6 +2,7 @@ import logging
 import re
 
 import scrapy
+from django.db import IntegrityError
 
 from crawler.models import Generic, Manufacturer
 from medexbot.items import MedItem
@@ -45,6 +46,10 @@ class MedSpider(scrapy.Spider):
         except Generic.DoesNotExist as ge:
             logging.info(ge)
             med_details['generic'] = None
+        except IntegrityError as ie:
+            logging.info(ie)
+            med_details['generic'] = None
+
 
         med_details['strength'] = extract_with_css('div[title="Strength"] ::text')
 
@@ -54,6 +59,9 @@ class MedSpider(scrapy.Spider):
             med_details['manufacturer'] = Manufacturer.objects.get(manufacturer_id=manufacturer_id)
         except Manufacturer.DoesNotExist as me:
             logging.info(me)
+            med_details['manufacturer'] = None
+        except IntegrityError as ie:
+            logging.info(ie)
             med_details['manufacturer'] = None
         # med_details['package_container'] = [self.clean_text(spec_value).strip() for spec_value in response.css(
         # 'div.package-container').getall()]
