@@ -123,6 +123,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
+# DATA_UPLOAD_MAX_NUMBER_FIELDS = 20240 # higher than the count of fields
+
 # REST_FRAMEWORK = {
 #     'DEFAULT_PERMISSION_CLASSES': [
 #         'rest_framework.permissions.jangoModelPermissionsOrAnonReadOnly'

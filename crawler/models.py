@@ -3,30 +3,6 @@ from django.db import models
 
 # Create your models here.
 
-class Medicine(models.Model):
-    brand_id = models.IntegerField(blank=False, null=False, unique=True)
-    brand_name = models.CharField(max_length=255, blank=False, null=False)
-    type = models.IntegerField(blank=False, null=False, default=0)
-    slug = models.SlugField(max_length=250, unique_for_date='created')
-    dosage_form = models.CharField(max_length=255)
-    generic_id = models.IntegerField()
-    strength = models.CharField(max_length=255)
-    manufacturer_id = models.IntegerField()
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ('brand_name',)
-        verbose_name = "medicine"
-        verbose_name_plural = 'medicines'
-        indexes = [
-            models.Index(fields=['brand_name'], name='%(app_label)s_%(class)s_name_index'),
-        ]
-
-    def __str__(self):
-        return self.brand_name
-
-
 class Generic(models.Model):
     generic_id = models.IntegerField(blank=False, null=False, unique=True)
     generic_name = models.CharField(max_length=255, blank=False, null=False)
@@ -172,3 +148,29 @@ class DrugClass(models.Model):
 
     def __str__(self):
         return self.drug_class_name
+
+
+class Medicine(models.Model):
+    brand_id = models.IntegerField(blank=False, null=False, unique=True)
+    brand_name = models.CharField(max_length=255, blank=False, null=False)
+    type = models.IntegerField(blank=False, null=False, default=0)
+    slug = models.SlugField(max_length=250, unique_for_date='created')
+    dosage_form = models.CharField(max_length=255)
+    generic = models.ForeignKey(Generic, on_delete=models.CASCADE, related_name='medicines')
+    # generic_id = models.IntegerField()
+    strength = models.CharField(max_length=255)
+    manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, related_name='medicines')
+    # manufacturer_id = models.IntegerField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('brand_name',)
+        verbose_name = "medicine"
+        verbose_name_plural = 'medicines'
+        indexes = [
+            models.Index(fields=['brand_name'], name='%(app_label)s_%(class)s_name_index'),
+        ]
+
+    def __str__(self):
+        return self.brand_name

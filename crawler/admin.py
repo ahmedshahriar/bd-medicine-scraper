@@ -1,10 +1,11 @@
 import string
 
 from django.contrib import admin
-
 # Register your models here.
 from crawler.models import Medicine, Generic, Manufacturer, DosageForm, Indication, DrugClass
 
+# change selection list count
+# https://stackoverflow.com/questions/36474515/how-to-get-filtered-queryset-in-django-admin/36476084#36476084
 
 # filtering
 # https://gist.github.com/ahmedshahriar/4240f0451261c4bb8364dd5341c7cf59
@@ -25,6 +26,8 @@ class AlphabetFilter(admin.SimpleListFilter):
             return queryset.filter(generic_name__startswith=self.value())
         if self.value() and isinstance(queryset.model, Manufacturer):
             return queryset.filter(manufacturer_name__startswith=self.value())
+
+
 
 
 @admin.register(Medicine)
@@ -54,6 +57,8 @@ class GenericAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('generic_name',)}
     date_hierarchy = 'created'
     ordering = ('created',)
+
+
 
 
 @admin.register(Manufacturer)
@@ -87,7 +92,7 @@ class IndicationAdmin(admin.ModelAdmin):
 
 
 @admin.register(DrugClass)
-class IndicationAdmin(admin.ModelAdmin):
+class DrugClassAdmin(admin.ModelAdmin):
     list_display = ('drug_class_id', 'drug_class_name', 'generics_count')
     list_filter = ('created', AlphabetFilter,)
     search_fields = ('drug_class_name',)

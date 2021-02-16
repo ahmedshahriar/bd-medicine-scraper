@@ -32,5 +32,5 @@ class ManufacturerSpider(scrapy.Spider):
                 item[k] = v
             yield item
 
-        # pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
-        # yield from response.follow_all(pagination_links, self.parse)
+        pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
+        yield from response.follow_all(pagination_links, self.parse)

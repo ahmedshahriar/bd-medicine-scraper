@@ -15,7 +15,6 @@ class GenericSpider(scrapy.Spider):
         yield from response.follow_all(generic_page_links, self.parse_generic)
 
         # pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
-        # # response.css('span[property="city"]::text').extract_first()
         # yield from response.follow_all(pagination_links, self.parse)
 
     def parse_generic(self, response):

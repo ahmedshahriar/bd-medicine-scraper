@@ -3,6 +3,7 @@ import re
 
 import scrapy
 
+from crawler.models import Generic, Manufacturer
 from medexbot.items import MedItem
 
 
@@ -38,10 +39,12 @@ class MedSpider(scrapy.Spider):
         med_details['dosage_form'] = extract_with_css('small.h1-subtitle ::text')
         # generic_name = extract_with_css('div[title="Generic Name"] a ::text')
         generic_link = extract_with_css('div[title="Generic Name"] a ::attr(href)')
-        med_details['generic_id'] = re.findall("generics/(\S*)/", generic_link)[0]
+        generic_id = re.findall("generics/(\S*)/", generic_link)[0]
+        med_details['generic'] = Generic.objects.get(generic_id=generic_id)
         med_details['strength'] = extract_with_css('div[title="Strength"] ::text')
         manufacturer_link = extract_with_css('div[title ="Manufactured by"] a ::attr(href)')
-        med_details['manufacturer_id'] = re.findall("companies/(\S*)/", manufacturer_link)[0]
+        manufacturer_id = re.findall("companies/(\S*)/", manufacturer_link)[0]
+        med_details['manufacturer'] = Manufacturer.objects.get(manufacturer_id=manufacturer_id)
         # med_details['package_container'] = [self.clean_text(spec_value).strip() for spec_value in response.css(
         # 'div.package-container').getall()]
 
