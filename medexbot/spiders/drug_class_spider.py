@@ -1,7 +1,10 @@
+import logging
 import re
 
 import scrapy
+from django.db import IntegrityError
 
+from crawler.models import Generic
 from medexbot.items import DrugClassItem
 
 
@@ -28,5 +31,14 @@ class DrugClassSpider(scrapy.Spider):
         # todo generic ids mapping
         # generic_links = response.css('a.hoverable-block  ::attr(href)').extract()
         # generic_ids = [re.findall("generics/(\S*)/", generic_link)[0] for generic_link in generic_links]
+        # for generic_id in generic_ids:
+        #     try:
+        #         generic = Generic.objects.get(generic_id=generic_id)
+        #     except Generic.DoesNotExist as ge:
+        #         logging.info(ge)
+        #         generic = None
+        #     except IntegrityError as ie:
+        #         logging.info(ie)
+        #         generic = None
 
         yield item

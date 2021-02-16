@@ -3,11 +3,31 @@ from django.db import models
 
 # Create your models here.
 
+class DrugClass(models.Model):
+    drug_class_id = models.IntegerField(blank=False, null=True, unique=True)
+    drug_class_name = models.CharField(max_length=255, blank=False, null=False)
+    slug = models.SlugField(max_length=250, unique_for_date='created')
+    generics_count = models.IntegerField()
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('drug_class_name',)
+        verbose_name = "drug class"
+        verbose_name_plural = 'drug classes'
+
+    def __str__(self):
+        return self.drug_class_name
+
+
 class Generic(models.Model):
     generic_id = models.IntegerField(blank=False, null=True, unique=True)
     generic_name = models.CharField(max_length=255, blank=False, null=False)
     slug = models.SlugField(max_length=250, unique_for_date='created')
     monograph_link = models.TextField(null=True, blank=True)
+
+    drug_class = models.ForeignKey(DrugClass, on_delete=models.CASCADE, related_name='drug_classes', null=True)
 
     indication_description = models.TextField(null=True, blank=True)
     therapeutic_class_description = models.TextField(null=True, blank=True)
@@ -132,29 +152,12 @@ class Indication(models.Model):
         return self.indication_name
 
 
-class DrugClass(models.Model):
-    drug_class_id = models.IntegerField(blank=False, null=True, unique=True)
-    drug_class_name = models.CharField(max_length=255, blank=False, null=False)
-    slug = models.SlugField(max_length=250, unique_for_date='created')
-    generics_count = models.IntegerField()
-
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ('drug_class_name',)
-        verbose_name = "drug class"
-        verbose_name_plural = 'drug classes'
-
-    def __str__(self):
-        return self.drug_class_name
-
-
 class Medicine(models.Model):
     brand_id = models.IntegerField(blank=False, null=True, unique=True)
     brand_name = models.CharField(max_length=255, blank=False, null=False)
     type = models.IntegerField(blank=False, null=False, default=0)
     slug = models.SlugField(max_length=250, unique_for_date='created')
+    # dosage_form = models.ForeignKey(DosageForm, on_delete=models.CASCADE, related_name='dosage_forms', null=True)
     dosage_form = models.CharField(max_length=255)
     generic = models.ForeignKey(Generic, on_delete=models.CASCADE, related_name='medicines', null=True)
     # generic_id = models.IntegerField()

@@ -39,6 +39,10 @@ class MedSpider(scrapy.Spider):
         med_details['type'] = 1 if response.css('h1.page-heading-1-l img ::attr(alt)').get().strip() == 'Herbal' else 0
         med_details['dosage_form'] = extract_with_css('small.h1-subtitle ::text')
         # generic_name = extract_with_css('div[title="Generic Name"] a ::text')
+        med_details['strength'] = extract_with_css('div[title="Strength"] ::text')
+
+        # generic extraction
+
         generic_link = extract_with_css('div[title="Generic Name"] a ::attr(href)')
         generic_id = re.findall("generics/(\S*)/", generic_link)[0]
         try:
@@ -50,8 +54,7 @@ class MedSpider(scrapy.Spider):
             logging.info(ie)
             med_details['generic'] = None
 
-
-        med_details['strength'] = extract_with_css('div[title="Strength"] ::text')
+        # manufacturer extraction
 
         manufacturer_link = extract_with_css('div[title ="Manufactured by"] a ::attr(href)')
         manufacturer_id = re.findall("companies/(\S*)/", manufacturer_link)[0]
