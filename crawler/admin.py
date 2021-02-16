@@ -52,7 +52,7 @@ class MedicineAdmin(admin.ModelAdmin):
 
 @admin.register(Generic)
 class GenericAdmin(admin.ModelAdmin):
-    list_display = ('generic_id', 'generic_name', 'monograph_link', 'descriptions_count')
+    list_display = ('generic_id', 'generic_name', 'monograph_link', 'drug_class', 'descriptions_count')
     list_filter = ('created', 'descriptions_count')
     search_fields = ('generic_name',)
     prepopulated_fields = {'slug': ('generic_name',)}

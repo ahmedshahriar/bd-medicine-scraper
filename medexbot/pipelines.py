@@ -82,7 +82,7 @@ class MedexbotPipeline:
 
     def handle_drug_class(self, item, spider):
         try:
-            indication = DrugClass.objects.get(drug_class_id=item["drug_class_id"])
+            drug_class = DrugClass.objects.get(drug_class_id=item["drug_class_id"])
             logging.info("Drug Class already exists")
             return item
         except DrugClass.DoesNotExist:
