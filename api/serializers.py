@@ -5,4 +5,4 @@ from rest_framework import serializers
 class MedicineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Medicine
-        fields = ['id', 'title', 'slug', 'brand_name', 'type', 'dosage_form', 'strength', '' ]
+        fields = ['id', 'brand_name', 'slug', 'type', 'dosage_form', 'strength', 'manufacturer_id']
