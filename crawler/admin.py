@@ -4,12 +4,14 @@ from django.contrib import admin
 # Register your models here.
 from crawler.models import Medicine, Generic, Manufacturer, DosageForm, Indication, DrugClass
 
+
 # change selection list count
 # https://stackoverflow.com/questions/36474515/how-to-get-filtered-queryset-in-django-admin/36476084#36476084
 
 # filtering
 # https://gist.github.com/ahmedshahriar/4240f0451261c4bb8364dd5341c7cf59
 # https://books.agiliq.com/projects/django-admin-cookbook/en/latest/filtering_calculated_fields.html
+
 
 class AlphabetFilter(admin.SimpleListFilter):
     title = 'Name Alphabetically'
@@ -28,11 +30,9 @@ class AlphabetFilter(admin.SimpleListFilter):
             return queryset.filter(manufacturer_name__startswith=self.value())
 
 
-
-
 @admin.register(Medicine)
 class MedicineAdmin(admin.ModelAdmin):
-    list_display = ('brand_id', 'brand_name', 'dosage_form', 'generic_id', 'get_med_type')
+    list_display = ('brand_id', 'brand_name', 'dosage_form', 'generic', 'manufacturer', 'get_med_type')
     list_filter = ('generic_id', 'dosage_form', AlphabetFilter, 'type', 'created')
     search_fields = ('brand_name', 'dosage_form')
     prepopulated_fields = {'slug': ('brand_name',)}
@@ -57,8 +57,6 @@ class GenericAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('generic_name',)}
     date_hierarchy = 'created'
     ordering = ('created',)
-
-
 
 
 @admin.register(Manufacturer)
