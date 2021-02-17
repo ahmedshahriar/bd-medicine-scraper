@@ -67,7 +67,7 @@ export_to_csv.short_description = 'Export to CSV'
 
 @admin.register(Medicine)
 class MedicineAdmin(admin.ModelAdmin):
-    list_display = ('brand_id', 'brand_name', 'dosage_form', 'generic', 'manufacturer', 'get_med_type')
+    list_display = ('brand_id', 'brand_name', 'dosage_form', 'generic', 'manufacturer', 'type')
     list_filter = ('generic_id', 'dosage_form', AlphabetFilter, 'type', 'created')
     search_fields = ('brand_name', 'dosage_form')
     prepopulated_fields = {'slug': ('brand_name',)}
@@ -75,14 +75,6 @@ class MedicineAdmin(admin.ModelAdmin):
     date_hierarchy = 'created'
     ordering = ('created',)
     actions = [export_to_csv]
-
-    def get_med_type(self, obj):
-        if obj.type == 0:
-            return 'Allopathic'
-        else:
-            return 'Herbal'
-
-    get_med_type.short_description = 'Medicine Type'
 
 
 @admin.register(Generic)

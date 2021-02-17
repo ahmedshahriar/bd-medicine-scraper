@@ -155,9 +155,14 @@ class Manufacturer(models.Model):
 
 
 class Medicine(models.Model):
+    MEDICINE_TYPE_CHOICES = (
+        ('allopathic', 'Allopathic'),
+        ('herbal', 'Herbal'),
+    )
     brand_id = models.IntegerField(blank=False, null=True, unique=True)
     brand_name = models.CharField(max_length=255, blank=False, null=False)
-    type = models.IntegerField(blank=False, null=False, default=0)
+    type = models.CharField(max_length=12, choices=MEDICINE_TYPE_CHOICES, default='allopathic', blank=False, null=False)
+
     slug = models.SlugField(max_length=250, unique_for_date='created')
     # dosage_form = models.ForeignKey(DosageForm, on_delete=models.CASCADE, related_name='dosage_forms', null=True)
     dosage_form = models.CharField(max_length=255)
