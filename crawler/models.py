@@ -65,7 +65,7 @@ class Generic(models.Model):
 
     drug_class = models.ForeignKey(DrugClass, on_delete=models.CASCADE, related_name='drug_classes', null=True)
 
-    indication = models.ForeignKey(Indication, on_delete=models.CASCADE,related_name='indications', null=True)
+    indication = models.ForeignKey(Indication, on_delete=models.CASCADE, related_name='indications', null=True)
 
     indication_description = models.TextField(null=True, blank=True)
     therapeutic_class_description = models.TextField(null=True, blank=True)

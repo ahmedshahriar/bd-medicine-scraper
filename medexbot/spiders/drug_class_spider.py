@@ -54,7 +54,6 @@ class DrugClassSpider(scrapy.Spider):
         except IndexError as ie:
             logging.info(ie)
 
-        drug_class = None
         try:
             drug_class = DrugClass.objects.get(drug_class_id=item["drug_class_id"])
             # print("Drug Class already exists",str(drug_class.drug_class_name))

@@ -1,7 +1,10 @@
+import logging
 import re
 
 import scrapy
+from django.db import IntegrityError
 
+from crawler.models import Generic, Indication
 from medexbot.items import IndicationItem
 
 
@@ -28,14 +31,41 @@ class IndicationSpider(scrapy.Spider):
         pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
         yield from response.follow_all(pagination_links, self.parse)
 
+    def generic_id_mapping(self, indication, generic_ids):
+        # populating indication field in Generic Model
+        for generic_id in generic_ids:
+            try:
+                generic = Generic.objects.get(generic_id=generic_id)
+                logging.info("generic indication value inserting...")
+                # https://docs.djangoproject.com/en/3.1/ref/models/instances/#specifying-which-fields-to-save
+                generic.indication = indication
+                generic.save(update_fields=['indication'])
+            except Generic.DoesNotExist as ge:
+                logging.info(ge)
+            except IntegrityError as ie:
+                logging.info(ie)
+
     def parse_indication(self, response):
+        generic_ids = None
+
         item = IndicationItem()
         item['indication_id'] = response.request.meta['indication_id']
         item['indication_name'] = response.request.meta['indication_name']
         item['generics_count'] = response.request.meta['generics_count']
 
-        generic_links = response.css('div.data-row-top a ::attr(href)').extract()
-        # todo generic ids mapping
-        generic_ids = [re.findall("generics/(\S*)/", generic_link)[0] for generic_link in generic_links]
+        try:
+            generic_links = response.css('div.data-row-top a ::attr(href)').extract()
+            generic_ids = [re.findall("generics/(\S*)/", generic_link)[0] for generic_link in generic_links]
+        except IndexError as ie:
+            logging.info(ie)
+
+        try:
+            indication = Indication.objects.get(indication_id=item["indication_id"])
+            print("Indication instance already exists",str(indication.indication_name))
+            self.generic_id_mapping(indication, generic_ids)
+        except Indication.DoesNotExist:
+            indication = item.save()
+            print("Indication instance creating...", str(indication.indication_name))
+            self.generic_id_mapping(indication, generic_ids)
 
         # yield item
