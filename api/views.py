@@ -1,8 +1,8 @@
 from rest_framework import generics
 
-from crawler.models import Medicine, DrugClass, Generic, Indication, DosageForm
+from crawler.models import Medicine, DrugClass, Generic, Indication, DosageForm, Manufacturer
 from .serializers import MedicineSerializer, DrugClassSerializer, GenericSerializer, IndicationSerializer, \
-    DosageFormSerializer
+    DosageFormSerializer, ManufacturerSerializer
 
 
 # Create your views here.
@@ -24,6 +24,16 @@ class GenericListView(generics.ListAPIView):
 class GenericDetailView(generics.RetrieveAPIView):
     queryset = Generic.objects.all()
     serializer_class = GenericSerializer
+
+
+class ManufacturerListView(generics.ListAPIView):
+    queryset = Manufacturer.objects.all()
+    serializer_class = ManufacturerSerializer
+
+
+class ManufacturerDetailView(generics.RetrieveAPIView):
+    queryset = Manufacturer.objects.all()
+    serializer_class = ManufacturerSerializer
 
 
 class DrugClassListView(generics.ListAPIView):
