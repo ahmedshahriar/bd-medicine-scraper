@@ -10,6 +10,8 @@ class MedicineSerializer(serializers.ModelSerializer):
 
 
 class GenericSerializer(serializers.ModelSerializer):
+    medicines = MedicineSerializer(many=True, read_only=True)
+
     class Meta:
         model = Generic
         fields = ['id', 'generic_name', 'slug', 'monograph_link', 'indication_description',
@@ -43,4 +45,5 @@ class ManufacturerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Manufacturer
-        fields = ['id', 'manufacturer_id', 'slug', 'manufacturer_name', 'generics_count', 'brand_names_count', 'medicines']
+        fields = ['id', 'manufacturer_id', 'slug', 'manufacturer_name', 'generics_count', 'brand_names_count',
+                  'medicines']
