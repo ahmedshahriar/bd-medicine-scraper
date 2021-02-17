@@ -56,6 +56,7 @@ class GenericAdmin(admin.ModelAdmin):
     list_filter = ('created', 'descriptions_count')
     search_fields = ('generic_name',)
     prepopulated_fields = {'slug': ('generic_name',)}
+    raw_id_fields = ('drug_class',)
     date_hierarchy = 'created'
     ordering = ('created',)
 
