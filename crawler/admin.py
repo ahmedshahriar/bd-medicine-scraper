@@ -1,8 +1,12 @@
+import csv
+import datetime
 import string
 
 from django.contrib import admin
 
 # Register your models here.
+from django.http import HttpResponse
+
 from crawler.models import Medicine, Generic, Manufacturer, DosageForm, Indication, DrugClass
 
 
@@ -31,6 +35,32 @@ class AlphabetFilter(admin.SimpleListFilter):
             return queryset.filter(manufacturer_name__startswith=self.value())
 
 
+def export_to_csv(model_admin, request, queryset):
+    opts = model_admin.model._meta
+    content_disposition = f'attachment; filename={opts.verbose_name}.csv'
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = content_disposition
+    writer = csv.writer(response)
+
+    fields = [field for field in opts.get_fields() if not field.many_to_many \
+              and not field.one_to_many]
+    # Write a first row with header information
+    writer.writerow([field.verbose_name for field in fields])
+    # Write data rows
+    for obj in queryset:
+        data_row = []
+        for field in fields:
+            value = getattr(obj, field.name)
+            if isinstance(value, datetime.datetime):
+                value = value.strftime('%d/%m/%Y')
+            data_row.append(value)
+        writer.writerow(data_row)
+    return response
+
+
+export_to_csv.short_description = 'Export to CSV'
+
+
 @admin.register(Medicine)
 class MedicineAdmin(admin.ModelAdmin):
     list_display = ('brand_id', 'brand_name', 'dosage_form', 'generic', 'manufacturer', 'get_med_type')
@@ -40,6 +70,7 @@ class MedicineAdmin(admin.ModelAdmin):
     raw_id_fields = ('generic', 'manufacturer')
     date_hierarchy = 'created'
     ordering = ('created',)
+    actions = [export_to_csv]
 
     def get_med_type(self, obj):
         if obj.type == 0:
@@ -59,6 +90,7 @@ class GenericAdmin(admin.ModelAdmin):
     raw_id_fields = ('drug_class', 'indication')
     date_hierarchy = 'created'
     ordering = ('created',)
+    actions = [export_to_csv]
 
 
 @admin.register(Manufacturer)
@@ -69,6 +101,7 @@ class ManufacturerAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('manufacturer_name',)}
     date_hierarchy = 'created'
     ordering = ('created',)
+    actions = [export_to_csv]
 
 
 @admin.register(DosageForm)
@@ -79,6 +112,7 @@ class DosageFormAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('dosage_form_name',)}
     date_hierarchy = 'created'
     ordering = ('created',)
+    actions = [export_to_csv]
 
 
 @admin.register(Indication)
@@ -89,6 +123,7 @@ class IndicationAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('indication_name',)}
     date_hierarchy = 'created'
     ordering = ('created',)
+    actions = [export_to_csv]
 
 
 @admin.register(DrugClass)
@@ -99,3 +134,4 @@ class DrugClassAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('drug_class_name',)}
     date_hierarchy = 'created'
     ordering = ('created',)
+    actions = [export_to_csv]
