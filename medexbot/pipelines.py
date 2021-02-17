@@ -27,8 +27,8 @@ class MedexbotPipeline:
             return self.handle_dosage_form(item, spider)
         if isinstance(item, IndicationItem):
             return self.handle_indication(item, spider)
-        if isinstance(item, DrugClassItem):
-            return self.handle_drug_class(item, spider)
+        # if isinstance(item, DrugClassItem):
+        #     return self.handle_drug_class(item, spider)
 
     def handle_meds(self, item, spider):
         try:
@@ -80,12 +80,12 @@ class MedexbotPipeline:
         item.save()
         return item
 
-    def handle_drug_class(self, item, spider):
-        try:
-            drug_class = DrugClass.objects.get(drug_class_id=item["drug_class_id"])
-            logging.info("Drug Class already exists")
-            return item
-        except DrugClass.DoesNotExist:
-            pass
-        item.save()
-        return item
+    # def handle_drug_class(self, item, spider):
+    #     try:
+    #         drug_class = DrugClass.objects.get(drug_class_id=item["drug_class_id"])
+    #         logging.info("Drug Class already exists")
+    #         return item
+    #     except DrugClass.DoesNotExist:
+    #         pass
+    #     item.save()
+    #     return item

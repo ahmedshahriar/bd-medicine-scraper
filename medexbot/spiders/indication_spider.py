@@ -38,4 +38,4 @@ class IndicationSpider(scrapy.Spider):
         # todo generic ids mapping
         generic_ids = [re.findall("generics/(\S*)/", generic_link)[0] for generic_link in generic_links]
 
-        yield item
+        # yield item
