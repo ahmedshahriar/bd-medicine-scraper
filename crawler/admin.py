@@ -35,9 +35,12 @@ class AlphabetFilter(admin.SimpleListFilter):
             return queryset.filter(manufacturer_name__startswith=self.value())
 
 
-class MedicineItemInline(admin.TabularInline):
+class MedicineItemInline(admin.StackedInline):
     model = Medicine
 
+
+class GenericItemInline(admin.TabularInline):
+    model = Generic
 
 def export_to_csv(model_admin, request, queryset):
     opts = model_admin.model._meta
@@ -121,6 +124,7 @@ class IndicationAdmin(admin.ModelAdmin):
     date_hierarchy = 'created'
     ordering = ('created',)
     actions = [export_to_csv]
+    inlines = [GenericItemInline]
 
 
 @admin.register(DrugClass)
