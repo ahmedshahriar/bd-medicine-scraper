@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from crawler.models import Medicine, Generic, DrugClass, DosageForm, Indication
+from crawler.models import Medicine, Generic, DrugClass, DosageForm, Indication, Manufacturer
 
 
 class MedicineSerializer(serializers.ModelSerializer):
@@ -25,12 +25,22 @@ class DrugClassSerializer(serializers.ModelSerializer):
 
 
 class IndicationSerializer(serializers.ModelSerializer):
+    generics = GenericSerializer(many=True, read_only=True)
+
     class Meta:
         model = Indication
-        fields = ['id', 'indication_id', 'slug', 'indication_name', 'generics_count']
+        fields = ['id', 'indication_id', 'slug', 'indication_name', 'generics_count', 'generics']
 
 
 class DosageFormSerializer(serializers.ModelSerializer):
     class Meta:
         model = DosageForm
         fields = ['id', 'dosage_form_id', 'slug', 'dosage_form_name', 'brand_names_count']
+
+
+class ManufacturerSerializer(serializers.ModelSerializer):
+    medicines = MedicineSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Manufacturer
+        fields = ['id', 'manufacturer_id', 'slug', 'manufacturer_name', 'generics_count', 'brand_names_count', 'medicines']
