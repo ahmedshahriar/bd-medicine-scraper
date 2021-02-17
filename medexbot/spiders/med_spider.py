@@ -3,6 +3,7 @@ import re
 
 import scrapy
 from django.db import IntegrityError
+from django.utils.text import slugify
 
 from crawler.models import Generic, Manufacturer
 from medexbot.items import MedItem
@@ -75,6 +76,8 @@ class MedSpider(scrapy.Spider):
 
         # med_details['package_container'] = extract_with_css('div.package-container ::text ')
         # med_details['pack_size_info'] = extract_with_css('span.pack-size-info ::text')
+
+        med_details['slug'] = slugify(med_details['brand_name'], allow_unicode=True)
 
         # yield med_details
         item = MedItem()
