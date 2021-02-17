@@ -35,6 +35,10 @@ class AlphabetFilter(admin.SimpleListFilter):
             return queryset.filter(manufacturer_name__startswith=self.value())
 
 
+class MedicineItemInline(admin.TabularInline):
+    model = Medicine
+
+
 def export_to_csv(model_admin, request, queryset):
     opts = model_admin.model._meta
     content_disposition = f'attachment; filename={opts.verbose_name}.csv'
@@ -102,6 +106,7 @@ class ManufacturerAdmin(admin.ModelAdmin):
     date_hierarchy = 'created'
     ordering = ('created',)
     actions = [export_to_csv]
+    inlines = [MedicineItemInline]
 
 
 @admin.register(DosageForm)

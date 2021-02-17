@@ -63,9 +63,9 @@ class Generic(models.Model):
     slug = models.SlugField(max_length=250, unique_for_date='created')
     monograph_link = models.TextField(null=True, blank=True)
 
-    drug_class = models.ForeignKey(DrugClass, on_delete=models.CASCADE, related_name='drug_classes', null=True)
+    drug_class = models.ForeignKey(DrugClass, on_delete=models.CASCADE, related_name='generics', null=True)
 
-    indication = models.ForeignKey(Indication, on_delete=models.CASCADE, related_name='indications', null=True)
+    indication = models.ForeignKey(Indication, on_delete=models.CASCADE, related_name='generics', null=True)
 
     indication_description = models.TextField(null=True, blank=True)
     therapeutic_class_description = models.TextField(null=True, blank=True)
@@ -152,9 +152,6 @@ class Manufacturer(models.Model):
 
     def __str__(self):
         return self.manufacturer_name
-
-
-
 
 
 class Medicine(models.Model):
