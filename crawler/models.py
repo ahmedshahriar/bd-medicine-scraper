@@ -2,6 +2,23 @@ from django.db import models
 
 
 # Create your models here.
+class DosageForm(models.Model):
+    dosage_form_id = models.IntegerField(blank=False, null=True, unique=True)
+    dosage_form_name = models.CharField(max_length=255, blank=False, null=False)
+    slug = models.SlugField(max_length=250, unique_for_date='created')
+    brand_names_count = models.IntegerField()
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('dosage_form_name',)
+        verbose_name = "dosage form"
+        verbose_name_plural = 'dosage forms'
+
+    def __str__(self):
+        return self.dosage_form_name
+
 
 class DrugClass(models.Model):
     drug_class_id = models.IntegerField(blank=False, null=True, unique=True)
@@ -19,24 +36,6 @@ class DrugClass(models.Model):
 
     def __str__(self):
         return self.drug_class_name
-
-
-class DosageForm(models.Model):
-    dosage_form_id = models.IntegerField(blank=False, null=True, unique=True)
-    dosage_form_name = models.CharField(max_length=255, blank=False, null=False)
-    slug = models.SlugField(max_length=250, unique_for_date='created')
-    brand_names_count = models.IntegerField()
-
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ('dosage_form_name',)
-        verbose_name = "dosage form"
-        verbose_name_plural = 'dosage forms'
-
-    def __str__(self):
-        return self.dosage_form_name
 
 
 class Indication(models.Model):

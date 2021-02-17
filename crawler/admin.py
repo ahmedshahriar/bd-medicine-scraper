@@ -3,7 +3,6 @@ import datetime
 import string
 
 from django.contrib import admin
-
 # Register your models here.
 from django.http import HttpResponse
 
@@ -41,6 +40,7 @@ class MedicineItemInline(admin.StackedInline):
 
 class GenericItemInline(admin.TabularInline):
     model = Generic
+
 
 def export_to_csv(model_admin, request, queryset):
     opts = model_admin.model._meta
