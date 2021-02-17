@@ -16,12 +16,12 @@ class DrugClassSpider(scrapy.Spider):
     def parse(self, response):
         # todo fetch all drug classes' links
         # print(response.css('a[target="_blank"] ::attr("href")').getall())
-        # print(response.css('a[target="_blank"] ::attr("href")').getall())
-        for drug_class in response.css('li.sc-2-list-item'):
+        # print(response.css('li.sc-2-list-item').getall())
+        for drug_class in response.css('a[target="_blank"]'):
             drug_class_link = drug_class.css('a ::attr("href") ').get()
             drug_class_id = re.findall("drug-classes/(\S*)/", drug_class_link)[0]
             drug_class_name = drug_class.css('a ::text').get()
-
+            # print(drug_class_id, drug_class_name,drug_class_link)
             yield from response.follow_all(drug_class.css('a ::attr("href") '), self.parse_drug_generic,
                                            meta={"drug_class_id": drug_class_id, "drug_class_name": drug_class_name})
 
