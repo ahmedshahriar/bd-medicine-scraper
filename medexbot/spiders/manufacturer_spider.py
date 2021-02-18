@@ -17,19 +17,16 @@ class ManufacturerSpider(scrapy.Spider):
         # "stat": [int(s) for s in (company_info.css('div.col-xs-12 ::text').extract()[-1].strip()).split()
         # if s.isdigit()]
         for company_info in response.css('div.data-row'):
-            manufacturer_details = dict()
+            item = dict()
             manufacturer_link = company_info.css('div.data-row-top a ::attr(href)').get()
             generic_counter, brand_name_counter = (int(s) for s in (
                 company_info.css('div.col-xs-12 ::text').extract()[-1].strip()).split() if s.isdigit())
 
-            manufacturer_details["manufacturer_id"] = re.findall("companies/(\S*)/", manufacturer_link)[0]
-            manufacturer_details["manufacturer_name"] = company_info.css('div.data-row-top a ::text').get()
-            manufacturer_details["generics_count"] = generic_counter
-            manufacturer_details["brand_names_count"] = brand_name_counter
+            item["manufacturer_id"] = re.findall("companies/(\S*)/", manufacturer_link)[0]
+            item["manufacturer_name"] = company_info.css('div.data-row-top a ::text').get()
+            item["generics_count"] = generic_counter
+            item["brand_names_count"] = brand_name_counter
 
-            item = ManufacturerItem()
-            for k, v in manufacturer_details.items():
-                item[k] = v
             yield item
 
         pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')

@@ -3,6 +3,7 @@ import re
 
 import scrapy
 from django.db import IntegrityError
+from django.utils.text import slugify
 
 from crawler.models import Generic, Indication
 from medexbot.items import IndicationItem
@@ -52,6 +53,8 @@ class IndicationSpider(scrapy.Spider):
         item['indication_id'] = response.request.meta['indication_id']
         item['indication_name'] = response.request.meta['indication_name']
         item['generics_count'] = response.request.meta['generics_count']
+        item['slug'] = slugify(item['indication_name'] + '-' + item['indication_id'],
+                               allow_unicode=True)
 
         try:
             generic_links = response.css('div.data-row-top a ::attr(href)').extract()

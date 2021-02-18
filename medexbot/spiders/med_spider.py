@@ -34,39 +34,40 @@ class MedSpider(scrapy.Spider):
         def extract_with_css(query):
             return response.css(query).get(default='').strip()
 
-        med_details = dict()
-        med_details['brand_id'] = re.findall("brands/(\S*)/", response.url)[0]
-        med_details['brand_name'] = response.css('h1.page-heading-1-l span ::text').getall()[0].strip()
-        med_details['type'] = 'herbal' if response.css('h1.page-heading-1-l img ::attr(alt)').get().strip() == 'Herbal' else 'allopathic'
-        med_details['dosage_form'] = extract_with_css('small.h1-subtitle ::text')
+        item = MedItem()
+        item['brand_id'] = re.findall("brands/(\S*)/", response.url)[0]
+        item['brand_name'] = response.css('h1.page-heading-1-l span ::text').getall()[0].strip()
+        item['type'] = 'herbal' if response.css(
+            'h1.page-heading-1-l img ::attr(alt)').get().strip() == 'Herbal' else 'allopathic'
+        item['dosage_form'] = extract_with_css('small.h1-subtitle ::text')
         # generic_name = extract_with_css('div[title="Generic Name"] a ::text')
-        med_details['strength'] = extract_with_css('div[title="Strength"] ::text')
+        item['strength'] = extract_with_css('div[title="Strength"] ::text')
 
         # generic extraction
 
         generic_link = extract_with_css('div[title="Generic Name"] a ::attr(href)')
         generic_id = re.findall("generics/(\S*)/", generic_link)[0]
         try:
-            med_details['generic'] = Generic.objects.get(generic_id=generic_id)
+            item['generic'] = Generic.objects.get(generic_id=generic_id)
         except Generic.DoesNotExist as ge:
             logging.info(ge)
-            med_details['generic'] = None
+            item['generic'] = None
         except IntegrityError as ie:
             logging.info(ie)
-            med_details['generic'] = None
+            item['generic'] = None
 
         # manufacturer extraction
 
         manufacturer_link = extract_with_css('div[title ="Manufactured by"] a ::attr(href)')
         manufacturer_id = re.findall("companies/(\S*)/", manufacturer_link)[0]
         try:
-            med_details['manufacturer'] = Manufacturer.objects.get(manufacturer_id=manufacturer_id)
+            item['manufacturer'] = Manufacturer.objects.get(manufacturer_id=manufacturer_id)
         except Manufacturer.DoesNotExist as me:
             logging.info(me)
-            med_details['manufacturer'] = None
+            item['manufacturer'] = None
         except IntegrityError as ie:
             logging.info(ie)
-            med_details['manufacturer'] = None
+            item['manufacturer'] = None
         # med_details['package_container'] = [self.clean_text(spec_value).strip() for spec_value in response.css(
         # 'div.package-container').getall()]
 
@@ -77,11 +78,7 @@ class MedSpider(scrapy.Spider):
         # med_details['package_container'] = extract_with_css('div.package-container ::text ')
         # med_details['pack_size_info'] = extract_with_css('span.pack-size-info ::text')
 
-        med_details['slug'] = slugify(med_details['brand_name']+med_details['dosage_form']+med_details['strength'], allow_unicode=True)
-
-        # yield med_details
-        item = MedItem()
-        for k, v in med_details.items():
-            item[k] = v
+        item['slug'] = slugify(item['brand_name'] + item['dosage_form'] + item['strength'],
+                               allow_unicode=True)
 
         yield item

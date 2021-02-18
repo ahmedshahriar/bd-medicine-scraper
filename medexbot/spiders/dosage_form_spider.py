@@ -1,6 +1,7 @@
 import re
 
 import scrapy
+from django.utils.text import slugify
 
 from medexbot.items import DosageFormItem
 
@@ -29,6 +30,8 @@ class DosageFormSpider(scrapy.Spider):
         item["dosage_form_id"] = response.request.meta['dosage_form_id']
         item['dosage_form_name'] = response.request.meta['dosage_form_name']
         item['brand_names_count'] = response.request.meta['brand_names_count']
+        item['slug'] = slugify(item['dosage_form_name'] + '-' + item['dosage_form_id'],
+                               allow_unicode=True)
 
         # todo brand ids mapping
         # brand_name_links = response.css('a.hoverable-block  ::attr(href)').extract()

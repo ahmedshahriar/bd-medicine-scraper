@@ -3,6 +3,7 @@ import re
 
 import scrapy
 from django.db import IntegrityError
+from django.utils.text import slugify
 
 from crawler.models import Generic, DrugClass
 from medexbot.items import DrugClassItem
@@ -47,6 +48,8 @@ class DrugClassSpider(scrapy.Spider):
         item['drug_class_id'] = response.request.meta['drug_class_id']
         item['drug_class_name'] = response.request.meta['drug_class_name']
         item['generics_count'] = len(response.css('a.hoverable-block'))
+        item['slug'] = slugify(item['drug_class_name'] + '-' + item['drug_class_id'],
+                               allow_unicode=True)
 
         try:
             generic_links = response.css('a.hoverable-block  ::attr(href)').extract()
