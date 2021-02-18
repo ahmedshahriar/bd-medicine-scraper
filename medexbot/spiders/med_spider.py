@@ -37,7 +37,7 @@ class MedSpider(scrapy.Spider):
         med_details = dict()
         med_details['brand_id'] = re.findall("brands/(\S*)/", response.url)[0]
         med_details['brand_name'] = response.css('h1.page-heading-1-l span ::text').getall()[0].strip()
-        med_details['type'] = 1 if response.css('h1.page-heading-1-l img ::attr(alt)').get().strip() == 'Herbal' else 0
+        med_details['type'] = 'herbal' if response.css('h1.page-heading-1-l img ::attr(alt)').get().strip() == 'Herbal' else 'allopathic'
         med_details['dosage_form'] = extract_with_css('small.h1-subtitle ::text')
         # generic_name = extract_with_css('div[title="Generic Name"] a ::text')
         med_details['strength'] = extract_with_css('div[title="Strength"] ::text')
@@ -77,7 +77,7 @@ class MedSpider(scrapy.Spider):
         # med_details['package_container'] = extract_with_css('div.package-container ::text ')
         # med_details['pack_size_info'] = extract_with_css('span.pack-size-info ::text')
 
-        med_details['slug'] = slugify(med_details['brand_name'], allow_unicode=True)
+        med_details['slug'] = slugify(med_details['brand_name']+med_details['dosage_form']+med_details['strength'], allow_unicode=True)
 
         # yield med_details
         item = MedItem()
