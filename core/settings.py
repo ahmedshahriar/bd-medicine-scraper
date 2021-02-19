@@ -29,7 +29,7 @@ ALLOWED_HOSTS = []
 # custom application
 CUSTOM_APPS = ['crawler', 'medexbot', 'api', ]
 
-PACKAGES = ['rest_framework', ]
+PACKAGES = ['rest_framework', 'rest_framework.authtoken', ]
 
 # Application definition
 
