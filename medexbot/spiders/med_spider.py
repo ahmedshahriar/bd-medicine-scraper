@@ -74,11 +74,13 @@ class MedSpider(scrapy.Spider):
         # todo : debug package container
         # https://medex.com.bd/brands/7701/3rd-cef-100mg
         # https://medex.com.bd/brands/9538/3-f-500mg
+        # check all the dosage forms and add exceptions https://medex.com.bd/dosage-forms
+        #
 
-        # med_details['package_container'] = extract_with_css('div.package-container ::text ')
-        # med_details['pack_size_info'] = extract_with_css('span.pack-size-info ::text')
+        # item['package_container'] = ' '.join(extract_with_css('div.package-container ::text').split())
+        # item['pack_size_info'] = ' '.join(extract_with_css('span.pack-size-info ::text').split())
 
         item['slug'] = slugify(item['brand_name'] + item['dosage_form'] + item['strength'],
                                allow_unicode=True)
-
-        yield item
+        print(' '.join(extract_with_css('span.pack-size-info ::text').split()) )
+        # yield item
