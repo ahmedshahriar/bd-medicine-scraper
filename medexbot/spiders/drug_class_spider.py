@@ -14,7 +14,7 @@ class DrugClassSpider(scrapy.Spider):
     allowed_domains = ['medex.com.bd']
     start_urls = ['https://medex.com.bd/drug-classes']
 
-    def parse(self, response):
+    def parse(self, response, **kwargs):
         # todo fetch all drug classes' links
         # print(response.css('a[target="_blank"] ::attr("href")').getall())
         # print(response.css('li.sc-2-list-item').getall())

@@ -14,7 +14,7 @@ class IndicationSpider(scrapy.Spider):
     allowed_domains = ['medex.com.bd']
     start_urls = ['https://medex.com.bd/indications?page=1']
 
-    def parse(self, response):
+    def parse(self, response, **kwargs):
         for indication_info in response.css('div.data-row'):
             indication_link = indication_info.css('div.data-row-top a ::attr(href)').get()
             indication_id = re.findall("indications/(\S*)/", indication_link)[0]
@@ -71,4 +71,4 @@ class IndicationSpider(scrapy.Spider):
             print("Indication instance creating...", str(indication.indication_name))
             self.generic_id_mapping(indication, generic_ids)
 
-        # yield item
+        yield item

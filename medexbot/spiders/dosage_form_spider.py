@@ -11,7 +11,7 @@ class DosageFormSpider(scrapy.Spider):
     allowed_domains = ['medex.com.bd']
     start_urls = ['https://medex.com.bd/dosage-forms']
 
-    def parse(self, response):
+    def parse(self, response, **kwargs):
         for dosage_form_info in response.css('a.hoverable-block'):
             dosage_form_link = dosage_form_info.css('a.hoverable-block ::attr("href") ').get()
             dosage_form_id = re.findall("dosage-forms/(\S*)/", dosage_form_link)[0]

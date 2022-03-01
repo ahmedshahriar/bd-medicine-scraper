@@ -24,7 +24,11 @@ class MedSpider(scrapy.Spider):
 
     def parse(self, response):
         for med_info in response.css('a.hoverable-block'):
-            med_page_links = med_info.css('a.hoverable-block ::attr("href") ')
+            # med_page_links = med_info.css('a.hoverable-block ::attr("href") ')
+            med_page_links = ['https://medex.com.bd/brands/7701/3rd-cef-100mg',
+                              'https://medex.com.bd/brands/9538/3-f-500mg']
+            # https://medex.com.bd/brands/7701/3rd-cef-100mg
+            # https://medex.com.bd/brands/9538/3-f-500mg
             yield from response.follow_all(med_page_links, self.parse_med)
 
             # pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
@@ -59,7 +63,7 @@ class MedSpider(scrapy.Spider):
         # manufacturer extraction
 
         manufacturer_link = extract_with_css('div[title ="Manufactured by"] a ::attr(href)')
-        manufacturer_id = re.findall("companies/(\S*)/", manufacturer_link)[0]
+        manufacturer_id = re.findall(r"companies/(\d+)/", manufacturer_link)[0]
         try:
             item['manufacturer'] = Manufacturer.objects.get(manufacturer_id=manufacturer_id)
         except Manufacturer.DoesNotExist as me:
@@ -75,12 +79,21 @@ class MedSpider(scrapy.Spider):
         # https://medex.com.bd/brands/7701/3rd-cef-100mg
         # https://medex.com.bd/brands/9538/3-f-500mg
         # check all the dosage forms and add exceptions https://medex.com.bd/dosage-forms
-        #
+
+        # todo : debug veterenary
+        # https://medex.com.bd/brands/31317/a-mectin-vet-10mg
 
         # item['package_container'] = ' '.join(extract_with_css('div.package-container ::text').split())
         # item['pack_size_info'] = ' '.join(extract_with_css('span.pack-size-info ::text').split())
 
+        # todo : remove overlapping pack size info
+        package_container = ','.join([re.sub(r'\s+', ' ', i).strip() for i in response.css('div.package-container ::text').getall()])
+        pack_size_info = ','.join([re.sub(r'\s+', ' ', i).strip() for i in response.css('span.pack-size-info ::text').getall() if i.strip() is not ''])
+
+        item['package_container'] = package_container
+        item['pack_size_info'] = pack_size_info
+
         item['slug'] = slugify(item['brand_name'] + item['dosage_form'] + item['strength'],
                                allow_unicode=True)
-        print(' '.join(extract_with_css('span.pack-size-info ::text').split()) )
-        # yield item
+
+        yield item

@@ -164,12 +164,15 @@ class Medicine(models.Model):
 
     slug = models.SlugField(max_length=250, unique_for_date='created')
     # dosage_form = models.ForeignKey(DosageForm, on_delete=models.CASCADE, related_name='dosage_forms', null=True)
-    dosage_form = models.CharField(max_length=255)
+    dosage_form = models.CharField(max_length=255, null=True, blank=True)
     generic = models.ForeignKey(Generic, on_delete=models.CASCADE, related_name='medicines', null=True)
     # generic_id = models.IntegerField()
-    strength = models.CharField(max_length=255)
+    strength = models.CharField(max_length=255, null=True, blank=True)
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE, related_name='medicines', null=True)
     # manufacturer_id = models.IntegerField()
+    package_container = models.CharField(max_length=255, null=True, blank=True)
+    pack_size_info = models.CharField(max_length=255, null=True, blank=True, verbose_name='Package Size')
+
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

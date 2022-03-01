@@ -11,7 +11,7 @@ class ManufacturerSpider(scrapy.Spider):
     allowed_domains = ['medex.com.bd']
     start_urls = ['https://medex.com.bd/companies?page=1']
 
-    def parse(self, response):
+    def parse(self, response, **kwargs):
 
         # manufacturer_name = response.css('div.data-row-top a ::text').extract()
         # "stat": company_info.xpath('//div[@class="data-row-top"]/following-sibling::node()[1]').get()
