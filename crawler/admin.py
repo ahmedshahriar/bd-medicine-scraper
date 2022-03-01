@@ -3,7 +3,8 @@ import datetime
 import string
 
 from django.contrib import admin
-# Register your models here.
+from admin_auto_filters.filters import AutocompleteFilter
+
 from django.http import HttpResponse
 
 from crawler.models import Medicine, Generic, Manufacturer, DosageForm, Indication, DrugClass
@@ -68,10 +69,15 @@ def export_to_csv(model_admin, request, queryset):
 export_to_csv.short_description = 'Export to CSV'
 
 
+class GenericFilter(AutocompleteFilter):
+    title = 'Generic'  # display title
+    field_name = 'generic'  # name of the foreign key field
+
+
 @admin.register(Medicine)
 class MedicineAdmin(admin.ModelAdmin):
     list_display = ('brand_id', 'brand_name', 'dosage_form', 'generic', 'manufacturer', 'type')
-    list_filter = ('generic_id', 'dosage_form', AlphabetFilter, 'type', 'created')
+    list_filter = (GenericFilter, 'dosage_form', AlphabetFilter, 'type', 'created')
     search_fields = ('brand_name', 'dosage_form')
     prepopulated_fields = {'slug': ('brand_name',)}
     raw_id_fields = ('generic', 'manufacturer')

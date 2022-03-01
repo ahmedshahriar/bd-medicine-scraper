@@ -22,17 +22,13 @@ class MedSpider(scrapy.Spider):
         cleaner = re.compile('<.*?>|&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-f]{1,6});')
         return re.sub(cleaner, '', raw_html)
 
-    def parse(self, response):
+    def parse(self, response, **kwargs):
         for med_info in response.css('a.hoverable-block'):
-            # med_page_links = med_info.css('a.hoverable-block ::attr("href") ')
-            med_page_links = ['https://medex.com.bd/brands/7701/3rd-cef-100mg',
-                              'https://medex.com.bd/brands/9538/3-f-500mg']
-            # https://medex.com.bd/brands/7701/3rd-cef-100mg
-            # https://medex.com.bd/brands/9538/3-f-500mg
+            med_page_links = med_info.css('a.hoverable-block ::attr("href") ')
             yield from response.follow_all(med_page_links, self.parse_med)
 
-            # pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
-            # yield from response.follow_all(pagination_links, self.parse)
+            pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
+            yield from response.follow_all(pagination_links, self.parse)
 
     def parse_med(self, response):
         def extract_with_css(query):

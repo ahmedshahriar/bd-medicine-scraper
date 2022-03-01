@@ -23,7 +23,7 @@ class ManufacturerSpider(scrapy.Spider):
             generic_counter, brand_name_counter = (int(s) for s in (
                 company_info.css('div.col-xs-12 ::text').extract()[-1].strip()).split() if s.isdigit())
 
-            item["manufacturer_id"] = re.findall("companies/(\S*)/", manufacturer_link)[0]
+            item["manufacturer_id"] = re.findall("companies/(\d+)/", manufacturer_link)[0]
             item["manufacturer_name"] = company_info.css('div.data-row-top a ::text').get()
             item["generics_count"] = generic_counter
             item["brand_names_count"] = brand_name_counter

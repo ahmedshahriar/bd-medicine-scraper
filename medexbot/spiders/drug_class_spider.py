@@ -54,6 +54,7 @@ class DrugClassSpider(scrapy.Spider):
         try:
             generic_links = response.css('a.hoverable-block  ::attr(href)').extract()
             generic_ids = [re.findall("generics/(\S*)/", generic_link)[0] for generic_link in generic_links]
+            print(generic_ids)
         except IndexError as ie:
             logging.info(ie)
 
