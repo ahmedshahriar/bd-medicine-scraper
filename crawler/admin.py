@@ -77,7 +77,7 @@ class GenericFilter(AutocompleteFilter):
 @admin.register(Medicine)
 class MedicineAdmin(admin.ModelAdmin):
     list_display = ('brand_id', 'brand_name', 'dosage_form', 'generic', 'manufacturer', 'type')
-    list_filter = (GenericFilter, 'dosage_form', AlphabetFilter, 'type', 'created')
+    list_filter = (GenericFilter, AlphabetFilter, 'type', 'created', 'dosage_form', )
     search_fields = ('brand_name', 'dosage_form')
     prepopulated_fields = {'slug': ('brand_name',)}
     raw_id_fields = ('generic', 'manufacturer')

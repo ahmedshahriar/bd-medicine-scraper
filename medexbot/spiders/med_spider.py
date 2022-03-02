@@ -27,8 +27,8 @@ class MedSpider(scrapy.Spider):
             med_page_links = med_info.css('a.hoverable-block ::attr("href") ')
             yield from response.follow_all(med_page_links, self.parse_med)
 
-            pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
-            yield from response.follow_all(pagination_links, self.parse)
+        pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
+        yield from response.follow_all(pagination_links, self.parse)
 
     def parse_med(self, response):
         def extract_with_css(query):

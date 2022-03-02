@@ -54,7 +54,6 @@ class DrugClassSpider(scrapy.Spider):
         try:
             generic_links = response.css('a.hoverable-block  ::attr(href)').extract()
             generic_ids = [re.findall("generics/(\S*)/", generic_link)[0] for generic_link in generic_links]
-            print(generic_ids)
         except IndexError as ie:
             logging.info(ie)
 
@@ -67,4 +66,4 @@ class DrugClassSpider(scrapy.Spider):
             # print("Drug Class creating...", str(drug_class.drug_class_name))
             self.generic_id_mapping(drug_class, generic_ids)
 
-        # yield item
+        yield item
