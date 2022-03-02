@@ -27,11 +27,11 @@ class AlphabetFilter(admin.SimpleListFilter):
         return ((c.upper(), c.upper()) for c in abc)
 
     def queryset(self, request, queryset):
-        if self.value() and isinstance(queryset.model, Medicine):
+        if self.value() and (queryset.model is Medicine):
             return queryset.filter(brand_name__startswith=self.value())
-        if self.value() and isinstance(queryset.model, Generic):
+        if self.value() and (queryset.model is Generic):
             return queryset.filter(generic_name__startswith=self.value())
-        if self.value() and isinstance(queryset.model, Manufacturer):
+        if self.value() and (queryset.model is Manufacturer):
             return queryset.filter(manufacturer_name__startswith=self.value())
 
 
@@ -89,7 +89,7 @@ class MedicineAdmin(admin.ModelAdmin):
 @admin.register(Generic)
 class GenericAdmin(admin.ModelAdmin):
     list_display = ('generic_id', 'generic_name', 'monograph_link', 'drug_class', 'indication', 'descriptions_count')
-    list_filter = ('created', 'descriptions_count')
+    list_filter = ('created', 'descriptions_count', AlphabetFilter)
     search_fields = ('generic_name',)
     prepopulated_fields = {'slug': ('generic_name',)}
     raw_id_fields = ('drug_class', 'indication')

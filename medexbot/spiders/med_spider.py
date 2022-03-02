@@ -35,7 +35,7 @@ class MedSpider(scrapy.Spider):
             return response.css(query).get(default='').strip()
 
         item = MedItem()
-        item['brand_id'] = re.findall("brands/(\S*)/", response.url)[0]
+        item['brand_id'] = re.findall(r"brands/(\S*)/", response.url)[0]
         item['brand_name'] = response.css('h1.page-heading-1-l span ::text').getall()[0].strip()
         item['type'] = 'herbal' if response.css(
             'h1.page-heading-1-l img ::attr(alt)').get().strip() == 'Herbal' else 'allopathic'
@@ -46,7 +46,7 @@ class MedSpider(scrapy.Spider):
         # generic extraction
 
         generic_link = extract_with_css('div[title="Generic Name"] a ::attr(href)')
-        generic_id = re.findall("generics/(\S*)/", generic_link)[0]
+        generic_id = re.findall(r"generics/(\S*)/", generic_link)[0]
         try:
             item['generic'] = Generic.objects.get(generic_id=generic_id)
         except Generic.DoesNotExist as ge:
@@ -60,11 +60,16 @@ class MedSpider(scrapy.Spider):
 
         manufacturer_link = extract_with_css('div[title ="Manufactured by"] a ::attr(href)')
         manufacturer_id = re.findall(r"companies/(\d+)/", manufacturer_link)[0]
+        manufacturer_name = extract_with_css('div[title ="Manufactured by"] a ::text')
         try:
             item['manufacturer'] = Manufacturer.objects.get(manufacturer_id=manufacturer_id)
         except Manufacturer.DoesNotExist as me:
             logging.info(me)
-            item['manufacturer'] = None
+            item['manufacturer'] = Manufacturer.objects.create(manufacturer_id=manufacturer_id,
+                                                               manufacturer_name=manufacturer_name,
+                                                               slug=slugify(manufacturer_name + '-' +
+                                                                            manufacturer_id,
+                                                                            allow_unicode=True))
         except IntegrityError as ie:
             logging.info(ie)
             item['manufacturer'] = None
@@ -83,8 +88,11 @@ class MedSpider(scrapy.Spider):
         # item['pack_size_info'] = ' '.join(extract_with_css('span.pack-size-info ::text').split())
 
         # todo : remove overlapping pack size info
-        package_container = ','.join([re.sub(r'\s+', ' ', i).strip() for i in response.css('div.package-container ::text').getall()])
-        pack_size_info = ','.join([re.sub(r'\s+', ' ', i).strip() for i in response.css('span.pack-size-info ::text').getall() if i.strip() is not ''])
+        package_container = ','.join(
+            [re.sub(r'\s+', ' ', i).strip() for i in response.css('div.package-container ::text').getall()])
+        pack_size_info = ','.join(
+            [re.sub(r'\s+', ' ', i).strip() for i in response.css('span.pack-size-info ::text').getall() if
+             i.strip() is not ''])
 
         item['package_container'] = package_container
         item['pack_size_info'] = pack_size_info

@@ -10,9 +10,9 @@ class GenericSpider(scrapy.Spider):
     name = "generic"
     allowed_domains = ['medex.com.bd']
     start_urls = [
-        # 'https://medex.com.bd/generics?page=1',
-        #           'https://medex.com.bd/generics?herbal=1'
-                  'https://medex.com.bd/search?search=Veterinary']
+        'https://medex.com.bd/generics?page=1',
+        'https://medex.com.bd/generics?herbal=1'
+        'https://medex.com.bd/search?search=Veterinary']
 
     def parse(self, response, **kwargs):
         if response.css('a.hoverable-block ::attr("href")'):
@@ -22,8 +22,8 @@ class GenericSpider(scrapy.Spider):
 
         yield from response.follow_all(generic_page_links, self.parse_generic)
 
-        # pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
-        # yield from response.follow_all(pagination_links, self.parse)
+        pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
+        yield from response.follow_all(pagination_links, self.parse)
 
     def parse_generic(self, response):
         item = GenericItem()

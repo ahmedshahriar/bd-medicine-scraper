@@ -6,7 +6,7 @@ class DosageForm(models.Model):
     dosage_form_id = models.IntegerField(blank=False, null=True, unique=True)
     dosage_form_name = models.CharField(max_length=255, blank=False, null=False)
     slug = models.SlugField(max_length=250, unique_for_date='created')
-    brand_names_count = models.IntegerField()
+    brand_names_count = models.IntegerField(null=True, blank=True)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -24,7 +24,7 @@ class DrugClass(models.Model):
     drug_class_id = models.IntegerField(blank=False, null=True, unique=True)
     drug_class_name = models.CharField(max_length=255, blank=False, null=False)
     slug = models.SlugField(max_length=250, unique_for_date='created')
-    generics_count = models.IntegerField()
+    generics_count = models.IntegerField(null=True, blank=True)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -42,7 +42,7 @@ class Indication(models.Model):
     indication_id = models.IntegerField(blank=False, null=True, unique=True)
     indication_name = models.CharField(max_length=255, blank=False, null=False)
     slug = models.SlugField(max_length=250, unique_for_date='created')
-    generics_count = models.IntegerField()
+    generics_count = models.IntegerField(null=True, blank=True)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -135,8 +135,8 @@ class Manufacturer(models.Model):
     manufacturer_id = models.IntegerField(blank=False, null=True, unique=True)
     manufacturer_name = models.CharField(max_length=255, blank=False, null=False)
     slug = models.SlugField(max_length=250, unique_for_date='created')
-    generics_count = models.IntegerField()
-    brand_names_count = models.IntegerField()
+    generics_count = models.IntegerField(null=True, blank=True)
+    brand_names_count = models.IntegerField(null=True, blank=True)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
