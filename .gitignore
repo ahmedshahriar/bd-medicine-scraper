@@ -16,6 +16,9 @@
 .idea/**/dictionaries
 .idea/**/shelf
 
+# dumps
+generic_id.txt
+
 # Generated files
 .idea/**/contentModel.xml
 
