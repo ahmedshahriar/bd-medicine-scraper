@@ -6,11 +6,11 @@ from rest_framework.authtoken.models import Token
 from crawler.models import Medicine, Generic, Manufacturer
 
 
-class MedicineTests(APITestCase):
+class MedicineDRFTests(APITestCase):
     def setUp(self):
         # Set up user
         self.user = User(username='testuser', email="foo@bar.com")
-        password = 'some_password'
+        password = 'test_password'
         self.user.set_password(password)
         self.user.save()
         token = Token.objects.create(user=self.user)
@@ -18,7 +18,9 @@ class MedicineTests(APITestCase):
 
         # Authenticate client with user
         self.client = APIClient()
-        self.client.login(email=self.user.email, password=password)
+        # self.client.login(username=self.user.username, password=password)
+        # self.client.force_login(self.user)
+        # self.client.force_authenticate(user=self.user) # works
 
         self.medicine_data = {
             'brand_name': 'Napa',
@@ -31,6 +33,8 @@ class MedicineTests(APITestCase):
         self.medicine = Medicine.objects.create(**self.medicine_data)
 
     def test_view_medicine(self):
+        # https://stackoverflow.com/a/70697852/11105356
+        self.client.force_authenticate(user=self.user)
         url = reverse('med_api:medicine-list')
         response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)

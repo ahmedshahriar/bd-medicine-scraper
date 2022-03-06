@@ -24,3 +24,4 @@ class MedicineTestCase(TestCase):
         self.assertEqual(str(medicine), 'Test Medicine')  # or self.assertEqual(medicine.__str__(), 'Test Medicine')
         self.assertEqual(str(generic), 'Test Generic')
         self.assertEqual(str(manufacturer), 'Test Manufacturer')
+
