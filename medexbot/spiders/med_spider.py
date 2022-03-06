@@ -24,13 +24,12 @@ class MedSpider(scrapy.Spider):
         return re.sub(cleaner, '', raw_html)
 
     def parse(self, response, **kwargs):
-        # for med_info in response.css('a.hoverable-block'):
-        #     med_page_links = med_info.css('a.hoverable-block ::attr("href") ')
-        med_page_links = ['https://medex.com.bd/brands/31677/cefa-1-vet-75gm']
-        yield from response.follow_all(med_page_links, self.parse_med)
+        for med_info in response.css('a.hoverable-block'):
+            med_page_links = med_info.css('a.hoverable-block ::attr("href") ')
+            yield from response.follow_all(med_page_links, self.parse_med)
 
-        # pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
-        # yield from response.follow_all(pagination_links, self.parse)
+        pagination_links = response.css('a.page-link[rel="next"]  ::attr("href") ')
+        yield from response.follow_all(pagination_links, self.parse)
 
     def parse_generic(self, response):
         item = GenericItem()
@@ -154,7 +153,7 @@ class MedSpider(scrapy.Spider):
         # https://medex.com.bd/brands/9538/3-f-500mg
         # check all the dosage forms and add exceptions https://medex.com.bd/dosage-forms
 
-        # todo : debug veterenary
+        # todo : debug veterinary
         # https://medex.com.bd/brands/31317/a-mectin-vet-10mg
 
         # item['package_container'] = ' '.join(extract_with_css('div.package-container ::text').split())

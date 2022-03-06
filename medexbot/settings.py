@@ -6,6 +6,10 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # todo scrapy django integration exploring new techniques
 # https://github.com/bipul21/scrapy_django
@@ -16,6 +20,15 @@ BOT_NAME = 'medexbot'
 
 SPIDER_MODULES = ['medexbot.spiders']
 NEWSPIDER_MODULE = 'medexbot.spiders'
+
+
+# Proxy setup
+
+PROXY_HOST = os.environ.get("PROXY_HOST")
+PROXY_PORT = os.environ.get("PROXY_PORT")
+PROXY_USER = os.environ.get("PROXY_USER")
+PROXY_PASSWORD = os.environ.get("PROXY_PASSWORD")
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1'
@@ -54,9 +67,10 @@ TELNETCONSOLE_ENABLED = False
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    'medexbot.middlewares.MedexbotDownloaderMiddleware': 543,
-# }
+DOWNLOADER_MIDDLEWARES = {
+   # 'medexbot.middlewares.MedexbotDownloaderMiddleware': 543,
+    'medexbot.proxy_middlewares.ProxyMiddleware': 350,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
