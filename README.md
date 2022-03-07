@@ -1,5 +1,5 @@
 # bd-medicine-scraper
-[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) ![Django CI](https://github.com/ahmedshahriar/bd-medicine-scraper/actions/workflows/django-ci.yml/badge.svg)
 
 Welcome to the bd-medicine-scraper repository!
 
