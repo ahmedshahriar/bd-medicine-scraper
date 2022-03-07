@@ -14,8 +14,23 @@ class GenericSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Generic
-        fields = ['id', 'generic_name', 'slug', 'monograph_link', 'indication_description',
-                  'therapeutic_class_description', 'descriptions_count']
+        fields = ['id', 'generic_name', 'medicines', 'slug', 'monograph_link',
+                  'indication_description',
+                  'therapeutic_class_description',
+                  'pharmacology_description',
+                  'dosage_description',
+                  'administration_description',
+                  'interaction_description',
+                  'contraindications_description',
+                  'side_effects_description',
+                  'pregnancy_and_lactation_description',
+                  'precautions_description',
+                  'pediatric_usage_description',
+                  'overdose_effects_description',
+                  'duration_of_treatment_description',
+                  'reconstitution_description',
+                  'storage_conditions_description',
+                  'descriptions_count']
 
 
 class DrugClassSerializer(serializers.ModelSerializer):

@@ -96,6 +96,8 @@ class GenericAdmin(admin.ModelAdmin):
     date_hierarchy = 'created'
     ordering = ('created',)
     actions = [export_to_csv]
+    # readonly_fields = ('desc_count',) # add `desc_count` to list_display to display the number of descriptions
+    # https://books.agiliq.com/projects/django-admin-cookbook/en/latest/filtering_calculated_fields.html
 
 
 @admin.register(Manufacturer)

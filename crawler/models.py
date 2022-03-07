@@ -106,7 +106,7 @@ class Generic(models.Model):
                           self.pediatric_usage_description, self.overdose_effects_description,
                           self.duration_of_treatment_description, self.reconstitution_description,
                           self.storage_conditions_description)
-            self.desc_counter = sum([1 if len(str(x)) > 4 else 0 for x in class_attr])
+            self.descriptions_count = sum([1 if len(str(x)) > 4 else 0 for x in class_attr])
             super(Generic, self).save(*args, **kwargs)
         except Exception as e:
             pass
