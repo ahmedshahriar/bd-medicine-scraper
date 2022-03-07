@@ -1,4 +1,6 @@
 # bd-medicine-scraper
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+
 Welcome to the bd-medicine-scraper repository!
 
 In this repository, I scraped Medicine data ([medex.com.bd](https://medex.com.bd)) using **scrapy** and integrated it with **Django REST Framework**. The data is stored in a **PostgreSQL** database. I designed the scraper in a way to keep the relations between models.
