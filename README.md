@@ -1,5 +1,5 @@
 # bd-medicine-scraper
-[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) ![Django CI](https://github.com/ahmedshahriar/bd-medicine-scraper/actions/workflows/django-ci.yml/badge.svg)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) ![Django CI](https://github.com/ahmedshahriar/bd-medicine-scraper/actions/workflows/django-ci.yml/badge.svg) [![Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://www.kaggle.com/ahmedshahriarsakib/bangladesh-medicine-analytics) [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://github.dev/ahmedshahriar/bd-medicine-scraper)
 
 ## Overview
 Welcome to the bd-medicine-scraper repository!
@@ -16,7 +16,40 @@ Integrated custom django command to export models to csv. (ex- `python manage.py
 I also added proxy configuration to scrapy.
 
 
-## Dataset
+
+## Run   
+
+Create a python virtual environment and run these commands from root directory-
+```
+pip insrall -r requirements.txt
+```
+
+This will run the django app-
+```
+python manage.py runserver
+```
+
+NB: Migrate before running the app
+```
+python manage.py makemigrations && python manage.py migrate
+```
+
+To run all spiders-
+
+```
+python run_crawler.py
+```
+
+To run a specific spider-
+```
+python manage.py <spider_name>
+```
+ex - `python manage.py med`
+
+
+## Data Analytics
+
+### Dataset
 The scraped dataset is available in kaggle - 
 - [Assorted Medicine Dataset of Bangladesh](https://www.kaggle.com/ahmedshahriarsakib/assorted-medicine-dataset-of-bangladesh)
 
@@ -29,8 +62,8 @@ Here is a list of the CSV files  with their featured columns:
    - generic
    - strength
    - manufacturer
-   - package container
-   - pack size and unit price
+   - package container (unit price and pack info)
+   - Package Size (unit price)
 2. manufacturer.csv (245 entries)
    - name
 3. indication.csv (2043 entries)
@@ -45,6 +78,9 @@ Here is a list of the CSV files  with their featured columns:
    - name
 6. dosage form.csv (123 entries)
    - name
+
+### Analytics
+[Bangladesh Medicine Analytics - Notebook on Kaggle](https://www.kaggle.com/ahmedshahriarsakib/bangladesh-medicine-analytics)
 
 ## Tests
 Workflow script - [django-ci.yml](https://github.com/ahmedshahriar/bd-medicine-scraper/blob/dev/.github/workflows/django-ci.yml)
@@ -69,6 +105,8 @@ Scrapy==2.4.1
 scrapy-djangoitem==1.1.1
 psycopg2==2.9.3
 ```
+
+
 
 ## Preview
 
