@@ -66,9 +66,9 @@ Here is a list of the CSV files  with their featured columns:
    - Package Size (unit price)
 2. manufacturer.csv (245 entries)
    - name
-3. indication.csv (2043 entries)
+3. indication.csv (2000+ entries)
    - name
-4. generic.csv (1809 entries)
+4. generic.csv (~1700-1800 entries)
    - name
    - monographic link (PDF URL)
    - drug class
@@ -76,7 +76,7 @@ Here is a list of the CSV files  with their featured columns:
    - generic details such as "Indication description", "Pharmacology description", "Dosage & Administration description" etc.
 5. drug class.csv (452 entries)
    - name
-6. dosage form.csv (123 entries)
+6. dosage form.csv (~120 entries)
    - name
 
 ### Analytics

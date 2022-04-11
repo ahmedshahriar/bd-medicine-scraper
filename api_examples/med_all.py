@@ -1,5 +1,4 @@
 import requests
-import json
 import pprint
 
 base_url = 'http://127.0.0.1:8000/api/'

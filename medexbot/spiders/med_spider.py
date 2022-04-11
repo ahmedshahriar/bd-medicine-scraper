@@ -180,6 +180,9 @@ class MedSpider(scrapy.Spider):
             item['generic'] = Generic.objects.get(generic_id=generic_id)
         except Generic.DoesNotExist as ge:
             logging.info(ge)
+            """
+            save the generics id with medicines id to map them later
+            """
             with open('generic_id.txt', 'a') as f:
                 f.write(item['brand_id']+','+generic_id + '\n')
 
