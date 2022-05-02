@@ -4,9 +4,14 @@ from crawler.models import Medicine, Generic, DrugClass, DosageForm, Indication,
 
 
 class MedicineSerializer(serializers.ModelSerializer):
+    generic_name = serializers.ReadOnlyField(source='generic.generic_name', read_only=True)
+    manufacturer_name = serializers.ReadOnlyField(source='manufacturer.manufacturer_name', read_only=True)
+
     class Meta:
         model = Medicine
-        fields = ['id', 'brand_name', 'slug', 'type', 'dosage_form', 'strength', 'manufacturer_id']
+        # read_only_fields = ('id', 'generic_name', 'manufacturer_name')
+        # fields = ['id', 'brand_name', 'slug', 'type', 'dosage_form', 'generic_name', 'strength', 'manufacturer_name']
+        exclude = ('created', 'updated', 'generic', 'manufacturer')
 
 
 class GenericSerializer(serializers.ModelSerializer):
