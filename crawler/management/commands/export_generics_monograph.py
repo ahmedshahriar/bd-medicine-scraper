@@ -20,7 +20,7 @@ class Command(BaseCommand):
                 Generic.objects.values_list("monograph_link", flat=True).exclude(monograph_link__isnull=True)
                 .exclude(monograph_link__exact=''))
             logger.info("Total monograph links: {}".format(len(monograph_links)))
-            for monograph_link in monograph_links[:1]:
+            for monograph_link in monograph_links:
                 if monograph_link:
                     logger.info(monograph_link)
 
