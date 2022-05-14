@@ -1,5 +1,5 @@
 # bd-medicine-scraper
-[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) ![Django CI](https://github.com/ahmedshahriar/bd-medicine-scraper/actions/workflows/django-ci.yml/badge.svg) [![Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://www.kaggle.com/ahmedshahriarsakib/bangladesh-medicine-analytics) [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://github.dev/ahmedshahriar/bd-medicine-scraper)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) ![Django CI](https://github.com/ahmedshahriar/bd-medicine-scraper/actions/workflows/django-ci.yml/badge.svg) [![Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://www.kaggle.com/ahmedshahriarsakib/bangladesh-medicine-analytics) [![Open in Visual Studio Code](https://img.shields.io/static/v1?logo=visualstudiocode&label=&message=Open%20in%20Visual%20Studio%20Code&labelColor=2c2c32&color=007acc&logoColor=007acc)](https://github.dev/ahmedshahriar/bd-medicine-scraper)
 
 ## Overview
 Welcome to the bd-medicine-scraper repository!
@@ -11,8 +11,15 @@ I also customized the django admin panels, added additional features such as -
 - custom filtering (alphabetical, model property)
 - bulk actions (export to csv)
 
-I customized the scrapy command to run scrapy spiders from django command line. (ex- `python manage.py spider_name`)\
-Integrated custom django command to export models to csv. (ex- `python manage.py export_model_name export_data_path`)\
+Other Customizations:
+- custom scrapy command to run scrapy spiders from django command line. (ex- `python manage.py <spider_name>`)
+- custom django commands 
+  - to export models to csv. (`python manage.py <export_model_name> <export_data_path>`)
+     ```
+      python manage.py export_medicine_data /home/ahmed/Desktop/medicine_data.csv
+  - to export generic monograph PDFs 
+     ```
+     python manage.py export_generics_monograph
 I also added proxy configuration to scrapy.
 
 
@@ -66,7 +73,7 @@ Here is a list of the CSV files  with their featured columns:
    - Package Size (unit price)
 2. manufacturer.csv (245 entries)
    - name
-3. indication.csv (2000+ entries)
+3. indication.csv (2k+ entries)
    - name
 4. generic.csv (~1700-1800 entries)
    - name
@@ -74,7 +81,7 @@ Here is a list of the CSV files  with their featured columns:
    - drug class
    - indication
    - generic details such as "Indication description", "Pharmacology description", "Dosage & Administration description" etc.
-5. drug class.csv (452 entries)
+5. drug class.csv (~400 entries)
    - name
 6. dosage form.csv (~120 entries)
    - name
@@ -85,13 +92,20 @@ Here is a list of the CSV files  with their featured columns:
 ## Tests
 Workflow script - [django-ci.yml](https://github.com/ahmedshahriar/bd-medicine-scraper/blob/dev/.github/workflows/django-ci.yml)
 
-Run the tests using:\
-`coverage run --omit='*/venv/*' manage.py test`
-or
-`python manage.py test`
+Run the tests using:
+```
+coverage run --omit='*/venv/*' manage.py test
+```
 
-Check the coverage\
-`coverage html`
+or
+```
+python manage.py test
+```
+
+Check the coverage
+```
+coverage html
+```
 
 ## Built With
 

@@ -1,9 +1,9 @@
 import csv
-import logging
 import datetime
 
 from crawler.models import Medicine, Generic, DosageForm, DrugClass, Indication, Manufacturer
 from django.core.management import BaseCommand
+from django.utils.autoreload import logger
 
 
 class Command(BaseCommand):  # see https://gist.github.com/2724472
@@ -13,7 +13,8 @@ class Command(BaseCommand):  # see https://gist.github.com/2724472
     def add_arguments(self, parser):
         parser.add_argument('model_name',
                             type=str,
-                            help='model name for the csv export')
+                            help='model name for the csv export, e.g. medicine, generic, dosage_form, drug_class, '
+                                 'indication, manufacturer')
 
         parser.add_argument('outfile',
                             nargs='?',
@@ -23,7 +24,7 @@ class Command(BaseCommand):  # see https://gist.github.com/2724472
     def handle(self, *args, **options):
         model_name = options['model_name']
         export_file = f"{options['outfile']}.csv" if options['outfile'] else '{}.csv'.format(model_name)
-        print("Exporting... %s" % model_name)
+        logger.info("Exporting... %s" % model_name)
 
         model_dict = {'medicine': Medicine, 'generic': Generic, 'dosage_form': DosageForm, 'drug_class': DrugClass,
                       'indication': Indication, 'manufacturer': Manufacturer}
@@ -48,4 +49,4 @@ class Command(BaseCommand):  # see https://gist.github.com/2724472
                         value = value.strftime('%d/%m/%Y')
                     data_row.append(value)
                 writer.writerow(data_row)
-            print(f.name, "exported")
+            logger.info(f.name, "exported")

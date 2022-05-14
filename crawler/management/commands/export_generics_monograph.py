@@ -1,4 +1,3 @@
-import logging
 import os
 from pathlib import Path
 
@@ -11,14 +10,15 @@ from crawler.models import Generic, Medicine
 
 
 class Command(BaseCommand):
-    help = "Export Generic Monograph to PDFs"
+    help = "Export Generic Monograph to PDFs. This command will download the drug monograph PDFs from the URLs listed " \
+           "on generic data. "
 
     def handle(self, *args, **options):
         logger.info("Export Generic Monograph to PDFs")
         try:
             monograph_links = (
                 Generic.objects.values_list("monograph_link", flat=True).exclude(monograph_link__isnull=True)
-                .exclude(monograph_link__exact=''))
+                    .exclude(monograph_link__exact=''))
             logger.info("Total monograph links: {}".format(len(monograph_links)))
             for monograph_link in monograph_links:
                 if monograph_link:
@@ -35,7 +35,7 @@ class Command(BaseCommand):
                     response = requests.get(monograph_link)
                     dirname = 'monograph-data/'
                     os.makedirs(os.path.dirname(dirname), exist_ok=True)
-                    with open(Path(dirname+str(monograph_link).split("/")[-1]+'.pdf'), 'wb') as f:
+                    with open(Path(dirname + str(monograph_link).split("/")[-1] + '.pdf'), 'wb') as f:
                         f.write(response.content)
 
         except Exception as ge:

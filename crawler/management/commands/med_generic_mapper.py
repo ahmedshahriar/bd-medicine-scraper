@@ -1,8 +1,6 @@
-import logging
-import os
-
 from django.core.management.base import BaseCommand
 from crawler.models import Generic, Medicine
+from django.utils.autoreload import logger
 
 
 class Command(BaseCommand):
@@ -20,4 +18,4 @@ class Command(BaseCommand):
                     medicine.generic = generic
                     medicine.save()
                 except Exception as ge:
-                    logging.info(ge)
+                    logger.info(ge)
