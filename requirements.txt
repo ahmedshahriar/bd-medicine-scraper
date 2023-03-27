@@ -38,7 +38,7 @@ pyquery==1.4.3
 python-dotenv==0.19.2
 pytz==2020.5
 queuelib==1.5.0
-redis==3.5.3
+redis==4.5.3
 requests==2.25.1
 Scrapy==2.4.1
 scrapy-djangoitem==1.1.1
