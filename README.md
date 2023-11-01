@@ -28,7 +28,7 @@ I also added proxy configuration to scrapy.
 
 Create a python virtual environment and run these commands from root directory-
 ```
-pip insrall -r requirements.txt
+pip install -r requirements.txt
 ```
 
 This will run the django app-
