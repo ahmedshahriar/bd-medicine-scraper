@@ -4,16 +4,16 @@
 ## Overview
 Welcome to the bd-medicine-scraper repository!
 
-In this project, I scraped Medicine data (from [medex.com.bd](https://medex.com.bd)) using **scrapy** and integrated it with **Django REST Framework**. The data is stored in a **PostgreSQL** database. I designed the scraper in a way to keep the relations between models.
+In this project, I scraped Medicine data (from [medex.com.bd](https://medex.com.bd)) using **scrapy** and integrated it with **Django REST Framework**. The data is stored in a **PostgreSQL** database. I designed the scraper in a way to keep the relations among models. Here is the [snapshot of the medex.bd](https://web.archive.org/web/20220416161208/https://medex.com.bd/) that has been scraped.
 
-I also customized the django admin panels, added additional features such as - 
-- auto complete lookup relational fields
+I also customized the Django admin panels, and added additional features such as - 
+- auto-complete lookup of relational fields
 - custom filtering (alphabetical, model property)
-- bulk actions (export to csv)
+- bulk actions (export to CSV)
 
 Other Customizations:
-- custom scrapy command to run scrapy spiders from django command line. (ex- `python manage.py <spider_name>`)
-- custom django commands 
+- custom scrapy command to run scrapy spiders from Django command line. (ex- `python manage.py <spider_name>`)
+- Custom Django commands 
   - to export models to csv. (`python manage.py <export_model_name> <export_data_path>`)
      ```
       python manage.py export_medicine_data /home/ahmed/Desktop/medicine_data.csv
