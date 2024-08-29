@@ -32,7 +32,7 @@ pyasn1-modules==0.2.8
 pycparser==2.20
 PyDispatcher==2.0.5
 PyHamcrest==2.0.2
-PyMySQL==1.0.2
+PyMySQL==1.1.1
 pyOpenSSL==20.0.1
 pyquery==1.4.3
 python-dotenv==0.19.2
