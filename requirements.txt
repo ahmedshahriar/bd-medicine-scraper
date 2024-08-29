@@ -40,7 +40,7 @@ pytz==2020.5
 queuelib==1.5.0
 redis==3.5.3
 requests==2.25.1
-Scrapy==2.4.1
+Scrapy==2.11.2
 scrapy-djangoitem==1.1.1
 scrapy-redis==0.6.8
 scrapyd==1.2.1
