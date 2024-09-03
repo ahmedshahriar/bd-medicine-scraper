@@ -9,7 +9,7 @@ constantly==15.1.0
 coverage==6.2
 cryptography==3.3.1
 cssselect==1.1.0
-Django==3.2.12
+Django==3.2.25
 django-admin-autocomplete-filter==0.7.1
 django-filter==21.1
 djangorestframework==3.12.2
